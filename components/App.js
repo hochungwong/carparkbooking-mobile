@@ -15,7 +15,7 @@ import SignUp from '../components/Auth/Signup';
 import Login from '../components/Auth/Login';
 import Main from './Main';
 
-import CarparkMap from './MapView/CarparkMap';
+import CarparkMap from './MapView/MapView';
 import CarparkDetail from './Carpark/CarparkDetail';
 
 // const App = SwitchNavigator (

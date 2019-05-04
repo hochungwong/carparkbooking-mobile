@@ -4,6 +4,12 @@ import { StyleSheet, Text, View ,Button} from 'react-native';
 import firebase from 'react-native-firebase';
 
 export default class Main extends React.Component{
+    static navigationOptions = () => {
+		return {
+			header: null,
+		};
+    };
+    
     state = {
         currentUser: null,
     }

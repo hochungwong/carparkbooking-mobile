@@ -1,17 +1,7 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow
- */
-
- //Not auth: check avaliablity
- //Auth: book
-
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View,TouchableOpacity,Dimensions,} from 'react-native';
+import {Platform, StyleSheet,  View,TouchableOpacity,Dimensions,} from 'react-native';
 import MapView , { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
+import { Container, Header, Title, Content, Button, Icon, Left, Body, Right,Text, Drawer} from "native-base";
 
 import CarparkMarker from './CarparkMarkers';
 
@@ -20,12 +10,6 @@ const LATITUD_DELTA = 0.005;
 const LONGITUDE_DELTA = 0.001;
 
 export default class CarparkMap extends Component {
-  static navigationOptions = () => {
-		return {
-			header: null,
-		};
-  };
-
   constructor(props){
     super(props);
     this.state = {
@@ -111,6 +95,32 @@ export default class CarparkMap extends Component {
     }
     return (
       <View style={styles.container}>
+        <Header transparent >
+            <Left>
+              <Button transparent onPress={()=>this.props.openDrawer()}>
+                <Icon name='menu'/>
+              </Button>
+            </Left>
+            <Body >
+              <Title>
+                Carpark
+              </Title>
+            </Body>
+            <Right>
+              {/* <Button transparent>
+                <Text>Cancel</Text>
+              </Button> */}
+            </Right>
+        </Header>
+        <MapView
+            style={styles.map}
+            showsUserLocation={true}
+            showsMyLocationButton = {true}
+            region = {region}
+            showsCompass = {true}
+        >
+          <CarparkMarker {...this.props}/>       
+        </MapView>
         <View style={childStyle(varTop)}>
           <TouchableOpacity
             style={styles.mapButton}
@@ -123,15 +133,7 @@ export default class CarparkMap extends Component {
             </Text>
           </TouchableOpacity>
         </View>
-          <MapView
-              style={styles.map}
-              showsUserLocation={true}
-              showsMyLocationButton = {true}
-              region = {region}
-              showsCompass = {true}
-          >
-            <CarparkMarker {...this.props}/>       
-          </MapView>
+          
       </View>
     );
   }
