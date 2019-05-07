@@ -5,36 +5,42 @@ import { Container, Header, Title, Content, Button, Icon, Left, Body, Right,Text
 
 import CarparkMarker from './CarparkMarkers';
 
+import {inject,observer} from 'mobx-react';
+
 const { width, height : windowsHeight } = Dimensions.get('window');
-const LATITUD_DELTA = 0.005;
+const LATITUDE_DELTA = 0.005;
 const LONGITUDE_DELTA = 0.001;
 
-export default class CarparkMap extends Component {
+class CarparkMap extends Component {
+  
   constructor(props){
     super(props);
+    this._userStore = this.props.userStore;
     this.state = {
-      region: {},
-      isCarparkTab: false
+      trackedRegion: {},
     }
   }
   
-  // componentDidMount(){
-  //   this._setCoord();
-  //   this.watchID = this._watchCoord();
-  // }
+  componentDidMount(){
+    console.log('did mount')
+  }
+
+  componentDidUpdate(){
+    console.log('did update')
+  }
 
   _setCoord = () => {
       navigator.geolocation.getCurrentPosition(
         ({coords}) => {
           const { latitude,longitude } = coords
           const region = {
-            latitude,
-            longitude,
-            latitudeDelta: LATITUD_DELTA,
+            latitude: latitude,
+            longitude: longitude,
+            latitudeDelta: LATITUDE_DELTA,
             longitudeDelta: LONGITUDE_DELTA
           }
           this.setState({
-            region: region
+            trackedRegion: region
           })
         },
         error => console.log('find me error',error),
@@ -49,11 +55,11 @@ export default class CarparkMap extends Component {
         const region = {
           latitude,
           longitude,
-          latitudeDelta: LATITUD_DELTA,
+          latitudeDelta: LATITUDE_DELTA,
           longitudeDelta: LONGITUDE_DELTA
         }
         this.setState({
-          region: region
+          trackedRegion: region
         })
       }
     )
@@ -71,20 +77,25 @@ export default class CarparkMap extends Component {
     }
   }
 
-  toggleCarparkTab = () => {
-    this.setState({
-      isCarparkTab: !this.state.isCarparkTab
-    })
-  }
+  
 
   // componentWillUnmount() {
   //   this._clearCoordWatch();
   // } 
     
   render() {
-    const { isCarparkTab } = this.state ;
-    const {region} = this.props;
-    console.log(region)
+    const {isCarparkTab, region} = this._userStore;
+    const {trackedRegion} = this.state;
+    const _region = {
+      latitude: region.latitude,
+      longitude: region.longitude,
+      latitudeDelta: LATITUDE_DELTA,
+      longitudeDelta: LONGITUDE_DELTA
+    }
+    
+    console.log(_region)
+    console.log(isCarparkTab)
+    console.log(trackedRegion)
     const varTop = windowsHeight - 125;
     const hitSlop = {
       top: 15,
@@ -106,9 +117,6 @@ export default class CarparkMap extends Component {
       <View style={styles.container}>
         <Header transparent >
             <Left>
-              <Button transparent onPress={()=>this.props.openDrawer()}>
-                <Icon name='menu'/>
-              </Button>
             </Left>
             <Body >
               <Title>
@@ -116,52 +124,38 @@ export default class CarparkMap extends Component {
               </Title>
             </Body>
             <Right>
-              {/* <Button transparent>
-                <Text>Cancel</Text>
-              </Button> */}
+              <Button transparent onPress={()=>this.props.openDrawer()}>
+                <Icon name='menu'/>
+              </Button>
             </Right>
         </Header>
         <MapView
-            style={styles.map}
-            showsUserLocation={true}
-            showsMyLocationButton = {true}
-            region = {region}
-            showsCompass = {true}
+          style={styles.map}
+          showsUserLocation={true}
+          showsMyLocationButton = {true}
+          region= {_region}
+          showsCompass = {true}
         >
-          <CarparkMarker {...this.props} toggleCarparkTab={this.toggleCarparkTab}/>       
-        </MapView>
-        {isCarparkTab ? 
-          <View>
-            <Tabs style={styles.tabSetting}>
-              <Tab heading={
-                <TabHeading>
-                  <Text>Carpark</Text>
-                </TabHeading>
-              }>
-                <View>
-                  <Text>Carpark Data</Text>
-                </View>
-              </Tab>
-            </Tabs>
-          </View>
-          :
-          <View style={childStyle(varTop)}>
-          <TouchableOpacity
-            style={styles.mapButton}
-            hitSlop = {hitSlop}
-            activeOpacity = {0.7}  
-            onPress = {()=> {this._findMe()}}
-          >
-            <Text style={styles.mapButtonText}>
-              Find Me
-            </Text>
-          </TouchableOpacity>
-          </View>
-        }
+          <CarparkMarker {...this.props} />       
+        </MapView>        
+        <View style={childStyle(varTop)}>
+        <TouchableOpacity
+          style={styles.mapButton}
+          hitSlop = {hitSlop}
+          activeOpacity = {0.7}  
+          onPress = {()=> {this._findMe()}}
+        >
+          <Text style={styles.mapButtonText}>
+            Find Me
+          </Text>
+        </TouchableOpacity>
+        </View>
       </View>
     );
   }
 }
+
+export default inject('userStore')(observer(CarparkMap)) ;
 
 const styles = StyleSheet.create({
   container: {

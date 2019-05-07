@@ -1,9 +1,6 @@
-import applyDecoratedDescriptor from '@babel/runtime/helpers/esm/applyDecoratedDescriptor';
-import initializerDefineProperty from '@babel/runtime/helpers/esm/initializerDefineProperty';
+import {AppRegistry, YellowBox} from 'react-native';
+import App from './src/App';
+import {name as appName} from './app.json';
 
-Object.assign(babelHelpers, {
-    applyDecoratedDescriptor,
-    initializerDefineProperty
-});
-
-require('./src');
+YellowBox.ignoreWarnings(['Remote debugger']);
+AppRegistry.registerComponent(appName, () => App);

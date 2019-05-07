@@ -3,12 +3,36 @@ import React from 'react';
 import { StyleSheet, Platform, Image, Text, View ,ActivityIndicator} from 'react-native';
 import firebase from 'react-native-firebase';
 
-export default class Loading extends React.Component{
-    componentDidMount(){
+import { inject, observer } from 'mobx-react';
+class Loading extends React.Component{
+    constructor(props){
+        super(props);
+        this._authStore = this.props.authStore;
+    }
+
+    checkIsAuth = () => {
         firebase.auth().onAuthStateChanged(user => {
-            this.props.navigation.navigate(user ? 'Main' : 'SignUp');
+            if(user) {
+                const {currentUser} = firebase.auth();
+                const userId = currentUser._user.uid;
+                const {setToken, setUserId} = this._authStore;
+                setUserId(userId);
+                firebase.messaging().getToken().then(
+                    token => setToken(token)
+                ).then(token => 
+                    this.props.navigation.navigate('Main', {token: token, userId: userId})
+                ).catch(e => {
+                    console.log(e)
+                })
+            }else{
+                this.props.navigation.navigate('SignUp');
+            }
         })
     }
+
+    componentDidMount(){
+        this.checkIsAuth();
+    }  
 
     render(){
         return(
@@ -19,6 +43,8 @@ export default class Loading extends React.Component{
         )
     }
 }
+
+export default inject('authStore')(observer(Loading))
 
 const styles = StyleSheet.create({
     container: {

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { createStackNavigator,createSwitchNavigator,createAppContainer} from 'react-navigation';
+import { createStackNavigator,createAppContainer, createSwitchNavigator} from 'react-navigation';
 
 import Loading from '../components/Auth/Loading';
 import SignUp from '../components/Auth/Signup';
@@ -10,47 +10,81 @@ import Main from '../components/Dashboard/Main';
 import CarparkMap from '../components/MapView/MapView';
 import CarparkDetail from '../components/Carpark/CarparkDetail';
 
-// const App = SwitchNavigator (
+import CheckoutForm from '../components/Checkout/CheckoutForm';
+
+// const CarparkDetailStack = createStackNavigator(
 //   {
-//     Loading:{
-//       screen:Loading
+//     CarparkDetail: {
+//       screen: CarparkDetail,
+//       navigationOptions: () => ({
+//         header: null
+//       })
 //     },
-//     SignUp:{
-//       screen:SignUp
-//     },
-//     Login:{
-//       screen:Login
-//     },
-//     Main:{
-//       screen:Main
-//     }
 //   },
 //   {
-//   initialRouteName: "Loading"
+//     mode: 'modal',
+//     headerMode: 'none'
 //   }
 // )
 
-// export default App ;
-const AppStack = createStackNavigator({
-  Main:Main
-})
-
-const MapStack = createStackNavigator({
-  CarparkMap: CarparkMap
-})
-
-const AppContainer =  createAppContainer(createSwitchNavigator(
+const MainStack = createStackNavigator(
   {
-    Loading: Loading,
-    Main: AppStack,
-    Login: Login,
-    SignUp: SignUp,
-    CarparkMap: MapStack,
-    CarparkDetail: CarparkDetail
+    Main: {
+      screen: Main,
+      navigationOptions: () => ({
+        gesturesEnabled: false,
+        header: null
+      })
+    },
+    CarparkMap: {
+      screen: CarparkMap
+    },
+    CarparkDetail: {
+      screen: CarparkDetail,
+      navigationOptions: () => ({
+        header: null
+      })
+    },
+    CheckoutForm: {
+      screen: CheckoutForm,
+      navigationOptions: () => ({
+        header: null
+      })
+    }
+  },
+  {
+    mode: 'modal',
+    headerMode: 'none'
+  }
+)
+ 
+
+const RootStack = createAppContainer(createSwitchNavigator(
+  {
+    Login: {
+      screen: Login,
+      navigationOptions: () => ({
+        gesturesEnabled: false,
+        header: null
+      })
+    },
+    SignUp: {
+      screen: SignUp,
+      navigationOptions: () => ({
+        gesturesEnabled: false,
+        header: null
+      })
+    },
+    Loading: {
+      screen: Loading
+    },
+    Main: MainStack,
   },
   {
     initialRouteName:'Loading'
   }
-))
+  )
+)
 
-export default () => <AppContainer />
+
+export default () => <RootStack />
