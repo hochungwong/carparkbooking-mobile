@@ -106,6 +106,10 @@ class Main extends React.Component{
         this.props.navigation.navigate('CarparkMap');
     }
     
+    jumpToCam = () => {
+      this.props.navigation.navigate('Cam');
+    }
+
     render(){
         const {currentUser} = this.state;
         const { userId , access_token } = this._authStore;
@@ -147,7 +151,7 @@ class Main extends React.Component{
                       <Text note numberOfLines={1}>Just need to take a photo of your car plate</Text>
                     </Body>
                     <Right>
-                      <Button transparent>
+                      <Button onPress={this.jumpToCam} transparent>
                         <Text >Start</Text>
                       </Button>
                     </Right>

@@ -12,6 +12,8 @@ import CarparkDetail from '../components/Carpark/CarparkDetail';
 
 import CheckoutForm from '../components/Checkout/CheckoutForm';
 
+import Cam from '../components/CarPlateRecognition/Cam';
+
 // const CarparkDetailStack = createStackNavigator(
 //   {
 //     CarparkDetail: {
@@ -50,6 +52,12 @@ const MainStack = createStackNavigator(
       navigationOptions: () => ({
         header: null
       })
+    },
+    Cam: {
+      screen: Cam,
+      navigationOptions: () => ({
+        header: null
+      })
     }
   },
   {
@@ -79,6 +87,7 @@ const RootStack = createAppContainer(createSwitchNavigator(
       screen: Loading
     },
     Main: MainStack,
+    
   },
   {
     initialRouteName:'Loading'

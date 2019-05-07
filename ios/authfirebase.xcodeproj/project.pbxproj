@@ -50,12 +50,20 @@
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		85AEED9EF2B14278B98B4817 /* Roboto.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 92A0856C68EC4C4B9A2770F3 /* Roboto.ttf */; };
 		9007B76C225ECE920045E87C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9007B744225ECE920045E87C /* GoogleService-Info.plist */; };
+		9083D7D92281CD6300E831E7 /* openalpr.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9083D7D52281CD6300E831E7 /* openalpr.framework */; };
+		9083D7DA2281CD6300E831E7 /* tesseract.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9083D7D62281CD6300E831E7 /* tesseract.framework */; };
+		9083D7DB2281CD6300E831E7 /* leptonica.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9083D7D72281CD6300E831E7 /* leptonica.framework */; };
+		9083D7DC2281CD6300E831E7 /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9083D7D82281CD6300E831E7 /* opencv2.framework */; };
+		9083D7DE2281CDA100E831E7 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9083D7DD2281CDA100E831E7 /* AssetsLibrary.framework */; };
+		9083D7E12281CE1000E831E7 /* runtime_data in Resources */ = {isa = PBXBuildFile; fileRef = 9083D7DF2281CE1000E831E7 /* runtime_data */; };
+		9083D7E22281CE1000E831E7 /* openalpr.conf in Resources */ = {isa = PBXBuildFile; fileRef = 9083D7E02281CE1000E831E7 /* openalpr.conf */; };
 		90DBC849227C473E003F32B3 /* libAirMaps.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 90DBC848227C471F003F32B3 /* libAirMaps.a */; };
 		946451030333433185163389 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D2D338EF57CF4DA7B86DCB27 /* SimpleLineIcons.ttf */; };
 		ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
 		B2CBCBB9C18244F5967C9920 /* libRNFirebase.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B9320D30AA84BF9A635BBBF /* libRNFirebase.a */; };
 		B380C96E6FED4EA08F8415A2 /* Roboto_medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FD6D3901E39A490BA5CD9B8F /* Roboto_medium.ttf */; };
 		C39F848DE2BB4F36B6006B9F /* rubicon-icon-font.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D51776B9F9FC4F0DAE96A6FC /* rubicon-icon-font.ttf */; };
+		C48D0CFAD59E4B65B8FDC701 /* libRNOpenAlpr.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E635186D0C3F449F9A766759 /* libRNOpenAlpr.a */; };
 		CF5E57772E4D5A1463C6B881 /* libPods-authfirebaseTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC6E352D575F254999F5E1CB /* libPods-authfirebaseTests.a */; };
 		E1F8C8A76AD145338223391B /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2480C80B060446ACBF5E0B36 /* MaterialIcons.ttf */; };
 		E46764D20BA447758E3A5C70 /* FontAwesome5_Solid.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AD8B816D566144469DCF5659 /* FontAwesome5_Solid.ttf */; };
@@ -355,6 +363,13 @@
 			remoteGlobalIDString = 134814201AA4EA6300B7C361;
 			remoteInfo = RNFirebase;
 		};
+		9083D7D22281CCD200E831E7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 32A9CD1B0A9E484C9C683B7C /* RNOpenAlpr.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = RNOpenAlpr;
+		};
 		90DBC847227C471F003F32B3 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 90DBC843227C471F003F32B3 /* AirMaps.xcodeproj */;
@@ -400,6 +415,7 @@
 		2D02E4901E0B4A5D006451C7 /* authfirebase-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "authfirebase-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D16E6891FA4F8E400B85C8A /* libReact.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libReact.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		2F72AA69B7A1479BA0E9B3A1 /* Foundation.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Foundation.ttf; path = "../node_modules/native-base/Fonts/Foundation.ttf"; sourceTree = "<group>"; };
+		32A9CD1B0A9E484C9C683B7C /* RNOpenAlpr.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNOpenAlpr.xcodeproj; path = "../node_modules/react-native-openalpr/ios/RNOpenAlpr.xcodeproj"; sourceTree = "<group>"; };
 		376E2871F9E5182D9836ACE5 /* Pods-authfirebase.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-authfirebase.release.xcconfig"; path = "Target Support Files/Pods-authfirebase/Pods-authfirebase.release.xcconfig"; sourceTree = "<group>"; };
 		4C40D5BD4D3D4C55943D81CA /* AntDesign.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = AntDesign.ttf; path = "../node_modules/native-base/Fonts/AntDesign.ttf"; sourceTree = "<group>"; };
 		566C8BCD2224E859A0D9B7FB /* Pods-authfirebaseTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-authfirebaseTests.debug.xcconfig"; path = "Target Support Files/Pods-authfirebaseTests/Pods-authfirebaseTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -411,6 +427,13 @@
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
 		9007B744225ECE920045E87C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		9083D7D52281CD6300E831E7 /* openalpr.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = openalpr.framework; sourceTree = "<group>"; };
+		9083D7D62281CD6300E831E7 /* tesseract.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = tesseract.framework; sourceTree = "<group>"; };
+		9083D7D72281CD6300E831E7 /* leptonica.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = leptonica.framework; sourceTree = "<group>"; };
+		9083D7D82281CD6300E831E7 /* opencv2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = opencv2.framework; sourceTree = "<group>"; };
+		9083D7DD2281CDA100E831E7 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
+		9083D7DF2281CE1000E831E7 /* runtime_data */ = {isa = PBXFileReference; lastKnownFileType = folder; name = runtime_data; path = "../node_modules/react-native-openalpr/ios/Frameworks/openalpr.framework/runtime_data"; sourceTree = "<group>"; };
+		9083D7E02281CE1000E831E7 /* openalpr.conf */ = {isa = PBXFileReference; lastKnownFileType = text; name = openalpr.conf; path = "../node_modules/react-native-openalpr/ios/Frameworks/openalpr.framework/openalpr.conf"; sourceTree = "<group>"; };
 		90DBC843227C471F003F32B3 /* AirMaps.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AirMaps.xcodeproj; path = "../node_modules/react-native-maps/lib/ios/AirMaps.xcodeproj"; sourceTree = "<group>"; };
 		92A0856C68EC4C4B9A2770F3 /* Roboto.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Roboto.ttf; path = "../node_modules/native-base/Fonts/Roboto.ttf"; sourceTree = "<group>"; };
 		98DB8E9B989C47A6AAB042CE /* FontAwesome5_Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Regular.ttf; path = "../node_modules/native-base/Fonts/FontAwesome5_Regular.ttf"; sourceTree = "<group>"; };
@@ -427,6 +450,7 @@
 		DBC3198B0F214DD687722ACB /* RNGestureHandler.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNGestureHandler.xcodeproj; path = "../node_modules/react-native-gesture-handler/ios/RNGestureHandler.xcodeproj"; sourceTree = "<group>"; };
 		DFA4D7B1A31042CE9EC3528B /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/native-base/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
 		E18B31AEF9C343AE855F369B /* libRNGestureHandler.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNGestureHandler.a; sourceTree = "<group>"; };
+		E635186D0C3F449F9A766759 /* libRNOpenAlpr.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNOpenAlpr.a; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
 		FAF6B6263435457DB4C86576 /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = "../node_modules/native-base/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
@@ -447,13 +471,18 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9083D7DE2281CDA100E831E7 /* AssetsLibrary.framework in Frameworks */,
 				90DBC849227C473E003F32B3 /* libAirMaps.a in Frameworks */,
 				ED297163215061F000B7C4FE /* JavaScriptCore.framework in Frameworks */,
 				ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */,
+				9083D7DB2281CD6300E831E7 /* leptonica.framework in Frameworks */,
 				11D1A2F320CAFA9E000508D9 /* libRCTAnimation.a in Frameworks */,
+				9083D7D92281CD6300E831E7 /* openalpr.framework in Frameworks */,
+				9083D7DA2281CD6300E831E7 /* tesseract.framework in Frameworks */,
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
 				00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */,
 				00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */,
+				9083D7DC2281CD6300E831E7 /* opencv2.framework in Frameworks */,
 				00C302E81ABCBA2D00DB3ED1 /* libRCTImage.a in Frameworks */,
 				133E29F31AD74F7200F7D852 /* libRCTLinking.a in Frameworks */,
 				00C302E91ABCBA2D00DB3ED1 /* libRCTNetwork.a in Frameworks */,
@@ -464,6 +493,7 @@
 				3CEF091272BB46D682F0BD24 /* libRNGestureHandler.a in Frameworks */,
 				0A5635FFCEE90291184C5286 /* libPods-authfirebase.a in Frameworks */,
 				B2CBCBB9C18244F5967C9920 /* libRNFirebase.a in Frameworks */,
+				C48D0CFAD59E4B65B8FDC701 /* libRNOpenAlpr.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -671,6 +701,7 @@
 				139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */,
 				DBC3198B0F214DD687722ACB /* RNGestureHandler.xcodeproj */,
 				9EDDBA9CF1624DA0820FC7A3 /* RNFirebase.xcodeproj */,
+				32A9CD1B0A9E484C9C683B7C /* RNOpenAlpr.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -687,6 +718,9 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				9083D7E02281CE1000E831E7 /* openalpr.conf */,
+				9083D7DF2281CE1000E831E7 /* runtime_data */,
+				9083D7D42281CD6300E831E7 /* Frameworks */,
 				13B07FAE1A68108700A75B9A /* authfirebase */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* authfirebaseTests */,
@@ -718,6 +752,7 @@
 				E18B31AEF9C343AE855F369B /* libRNGestureHandler.a */,
 				291EF04873A64F29ADD182AB /* libRNGestureHandler-tvOS.a */,
 				0B9320D30AA84BF9A635BBBF /* libRNFirebase.a */,
+				E635186D0C3F449F9A766759 /* libRNOpenAlpr.a */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -737,6 +772,27 @@
 				9007B7B2225ED3EA0045E87C /* libRNFirebase.a */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		9083D7CF2281CCD200E831E7 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				9083D7D32281CCD200E831E7 /* libRNOpenAlpr.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		9083D7D42281CD6300E831E7 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				9083D7DD2281CDA100E831E7 /* AssetsLibrary.framework */,
+				9083D7D52281CD6300E831E7 /* openalpr.framework */,
+				9083D7D62281CD6300E831E7 /* tesseract.framework */,
+				9083D7D72281CD6300E831E7 /* leptonica.framework */,
+				9083D7D82281CD6300E831E7 /* opencv2.framework */,
+			);
+			name = Frameworks;
+			path = "../node_modules/react-native-openalpr/ios/Frameworks";
 			sourceTree = "<group>";
 		};
 		90DBC844227C471F003F32B3 /* Products */ = {
@@ -958,6 +1014,10 @@
 				{
 					ProductGroup = 9007B72F225E08C90045E87C /* Products */;
 					ProjectRef = DBC3198B0F214DD687722ACB /* RNGestureHandler.xcodeproj */;
+				},
+				{
+					ProductGroup = 9083D7CF2281CCD200E831E7 /* Products */;
+					ProjectRef = 32A9CD1B0A9E484C9C683B7C /* RNOpenAlpr.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -1244,6 +1304,13 @@
 			remoteRef = 9007B7B1225ED3EA0045E87C /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		9083D7D32281CCD200E831E7 /* libRNOpenAlpr.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNOpenAlpr.a;
+			remoteRef = 9083D7D22281CCD200E831E7 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		90DBC848227C471F003F32B3 /* libAirMaps.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -1272,6 +1339,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9083D7E12281CE1000E831E7 /* runtime_data in Resources */,
+				9083D7E22281CE1000E831E7 /* openalpr.conf in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 				9007B76C225ECE920045E87C /* GoogleService-Info.plist in Resources */,
@@ -1326,7 +1395,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
+			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
 		};
 		2D02E4CB1E0B4B27006451C7 /* Bundle React Native Code And Images */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1465,12 +1534,14 @@
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-gesture-handler/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
+					"$(SRCROOT)/../node_modules/react-native-openalpr/ios/**",
 				);
 				INFOPLIST_FILE = authfirebaseTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1496,12 +1567,14 @@
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-gesture-handler/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
+					"$(SRCROOT)/../node_modules/react-native-openalpr/ios/**",
 				);
 				INFOPLIST_FILE = authfirebaseTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1524,10 +1597,18 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = FU2CF2UCN3;
+				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_ROOT}/FirebaseAnalytics/Frameworks\"",
+					"\"${PODS_ROOT}/GoogleAppMeasurement/Frameworks\"",
+					"$(PROJECT_DIR)/../node_modules/react-native-openalpr/ios/Frameworks",
+				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-gesture-handler/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
+					"$(SRCROOT)/../node_modules/react-native-openalpr/ios/**",
 				);
 				INFOPLIST_FILE = authfirebase/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1549,10 +1630,18 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = FU2CF2UCN3;
+				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_ROOT}/FirebaseAnalytics/Frameworks\"",
+					"\"${PODS_ROOT}/GoogleAppMeasurement/Frameworks\"",
+					"$(PROJECT_DIR)/../node_modules/react-native-openalpr/ios/Frameworks",
+				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-gesture-handler/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
+					"$(SRCROOT)/../node_modules/react-native-openalpr/ios/**",
 				);
 				INFOPLIST_FILE = authfirebase/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1583,11 +1672,13 @@
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-gesture-handler/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
+					"$(SRCROOT)/../node_modules/react-native-openalpr/ios/**",
 				);
 				INFOPLIST_FILE = "authfirebase-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1620,11 +1711,13 @@
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-gesture-handler/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
+					"$(SRCROOT)/../node_modules/react-native-openalpr/ios/**",
 				);
 				INFOPLIST_FILE = "authfirebase-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1656,11 +1749,13 @@
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-gesture-handler/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
+					"$(SRCROOT)/../node_modules/react-native-openalpr/ios/**",
 				);
 				INFOPLIST_FILE = "authfirebase-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1692,11 +1787,13 @@
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-gesture-handler/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
+					"$(SRCROOT)/../node_modules/react-native-openalpr/ios/**",
 				);
 				INFOPLIST_FILE = "authfirebase-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
