@@ -20,13 +20,16 @@ export default class MapView extends Component {
     }
 
     render() {
+        const region = this.props.navigation.getParam('region');
         return (
             <Drawer
                 ref = {ref => {this.drawer = ref}}
                 content = {<SideBarList {...this.props}/>}
                 onClose = {() => this.closeDrawer()}
             >
-                <CarparkMap openDrawer={this.openDrawer}/>
+                 
+                    <CarparkMap openDrawer={this.openDrawer} region={region}/>
+                
             </Drawer>
         )
     }

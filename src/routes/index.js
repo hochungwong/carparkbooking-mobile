@@ -1,11 +1,3 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow
- */
-
 import React from 'react';
 
 import { createStackNavigator,createSwitchNavigator,createAppContainer} from 'react-navigation';
@@ -13,10 +5,10 @@ import { createStackNavigator,createSwitchNavigator,createAppContainer} from 're
 import Loading from '../components/Auth/Loading';
 import SignUp from '../components/Auth/Signup';
 import Login from '../components/Auth/Login';
-import Main from './Main';
+import Main from '../components/Dashboard/Main';
 
-import CarparkMap from './MapView/MapView';
-import CarparkDetail from './Carpark/CarparkDetail';
+import CarparkMap from '../components/MapView/MapView';
+import CarparkDetail from '../components/Carpark/CarparkDetail';
 
 // const App = SwitchNavigator (
 //   {
@@ -43,16 +35,11 @@ const AppStack = createStackNavigator({
   Main:Main
 })
 
-const AuthStack = createStackNavigator({
-  Login:Login,
-  SignUp:SignUp
-})
-
 const MapStack = createStackNavigator({
   CarparkMap: CarparkMap
 })
 
-export default createAppContainer(createSwitchNavigator(
+const AppContainer =  createAppContainer(createSwitchNavigator(
   {
     Loading: Loading,
     Main: AppStack,
@@ -65,3 +52,5 @@ export default createAppContainer(createSwitchNavigator(
     initialRouteName:'Loading'
   }
 ))
+
+export default () => <AppContainer />

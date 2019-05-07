@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import {Platform, StyleSheet, Text, View,TouchableOpacity,Dimensions} from 'react-native';
-
+import { Card, CardItem, Content, Container } from 'native-base';
 export default class CarparkDetail extends Component {
     static navigationOptions = () => {
 		return {

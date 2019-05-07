@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Platform, StyleSheet,  View,TouchableOpacity,Dimensions,} from 'react-native';
 import MapView , { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
-import { Container, Header, Title, Content, Button, Icon, Left, Body, Right,Text, Drawer} from "native-base";
+import { Container, Header, Title, Content, Button, Icon, Left, Body, Right,Text, Tab, Tabs, TabHeading} from "native-base";
 
 import CarparkMarker from './CarparkMarkers';
 
@@ -14,13 +14,14 @@ export default class CarparkMap extends Component {
     super(props);
     this.state = {
       region: {},
+      isCarparkTab: false
     }
   }
   
-  componentWillMount(){
-    this._setCoord();
-    this.watchID = this._watchCoord();
-  }
+  // componentDidMount(){
+  //   this._setCoord();
+  //   this.watchID = this._watchCoord();
+  // }
 
   _setCoord = () => {
       navigator.geolocation.getCurrentPosition(
@@ -70,12 +71,20 @@ export default class CarparkMap extends Component {
     }
   }
 
-  componentWillUnmount() {
-    this._clearCoordWatch();
-  } 
+  toggleCarparkTab = () => {
+    this.setState({
+      isCarparkTab: !this.state.isCarparkTab
+    })
+  }
+
+  // componentWillUnmount() {
+  //   this._clearCoordWatch();
+  // } 
     
   render() {
-    const { region } = this.state ;
+    const { isCarparkTab } = this.state ;
+    const {region} = this.props;
+    console.log(region)
     const varTop = windowsHeight - 125;
     const hitSlop = {
       top: 15,
@@ -119,9 +128,24 @@ export default class CarparkMap extends Component {
             region = {region}
             showsCompass = {true}
         >
-          <CarparkMarker {...this.props}/>       
+          <CarparkMarker {...this.props} toggleCarparkTab={this.toggleCarparkTab}/>       
         </MapView>
-        <View style={childStyle(varTop)}>
+        {isCarparkTab ? 
+          <View>
+            <Tabs style={styles.tabSetting}>
+              <Tab heading={
+                <TabHeading>
+                  <Text>Carpark</Text>
+                </TabHeading>
+              }>
+                <View>
+                  <Text>Carpark Data</Text>
+                </View>
+              </Tab>
+            </Tabs>
+          </View>
+          :
+          <View style={childStyle(varTop)}>
           <TouchableOpacity
             style={styles.mapButton}
             hitSlop = {hitSlop}
@@ -132,8 +156,8 @@ export default class CarparkMap extends Component {
               Find Me
             </Text>
           </TouchableOpacity>
-        </View>
-          
+          </View>
+        }
       </View>
     );
   }
@@ -167,5 +191,15 @@ const styles = StyleSheet.create({
   mapButtonText: {
     fontWeight: 'bold',
     color: 'black'
-  }
+  },
+  tabSetting: {
+    position: 'absolute',
+		left: 0,
+		right: 0,
+		bottom: 20,
+		flex: 1,
+		backgroundColor: "#fff",
+		alignItems:'center'
+  },
+
 })

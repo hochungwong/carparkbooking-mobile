@@ -69,7 +69,8 @@ class CarparkMarker extends Component{
                 <Marker
                   key = {key}
                   coordinate = {i.coordinate}
-                  onPress = {()=>{this.jumpToCarparkDetails(i)}}
+                //   onPress = {()=>{this.jumpToCarparkDetails(i)}}
+                  onPress={this.props.toggleCarparkTab}
                 >
                     <View style={{backgroundColor: "red", padding:5, borderRadius:50, opacity:0.8}}>
                         <Text style={{textAlign:'center'}}>{i.name}</Text>
