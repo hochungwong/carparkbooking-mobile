@@ -56,14 +56,17 @@ class CarparkMarker extends Component{
         for (let key in coordinateData){
             const i = coordinateData[key];
             const j = carparkData[key].carparkData;
+            const k = carparkData[key].carparkId
             tempArr.push({
                 coordinate: i.coordinate,
                 address: i.address,
                 price: j.parkingFees,
                 name: j.name,
-                totalNumber: j.totalValidNumber
+                totalNumber: j.totalValidNumber,
+                carparkId: k
             })
         }
+        console.log(tempArr)
         return (
             tempArr.map((i,key) => (
                 <Marker

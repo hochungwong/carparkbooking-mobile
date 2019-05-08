@@ -12,6 +12,10 @@ export default class UserStore {
     };
     isCarparkTab = false;
     currentAddress = "";
+    avatar = require('../components/assets/logo/carpark.png');
+    email = "";
+    plateNumber = null;
+    phoneNumber = null;
 
     setRegion = newRegion => Object.assign(this.region, newRegion)
 
@@ -30,16 +34,34 @@ export default class UserStore {
     setAddress = address => {
         this.currentAddress = address;
     }
+
+    setEmail = email => {
+        this.email = email
+    }
+
+    setPlateNumber = plate => {
+        this.plateNumber = plate;
+    }
+
+    setPhoneNumber = phone => {
+        this.phoneNumber = phone;
+    }
 }
 
 decorate(UserStore, {
     region: observable,
     isCarparkTab: observable,
     currentAddress: observable,
+    email: observable,
+    plateNumber: observable,
+    phoneNumber: observable,
 
     setRegion: action,
     setLat: action,
     setLng: action,
     setCarparkTab: action,
-    setAddress: action
+    setAddress: action,
+    setEmail: action,
+    setPlateNumber: action,
+    setPhoneNumber: action
 })

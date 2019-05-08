@@ -136,7 +136,7 @@ class CarparkMap extends Component {
           region= {_region}
           showsCompass = {true}
         >
-          <CarparkMarker {...this.props} />       
+          <CarparkMarker {...this.props} toggleCarparkTab={this.toggleCarparkTab}/>       
         </MapView>        
         <View style={childStyle(varTop)}>
         <TouchableOpacity

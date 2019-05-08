@@ -1,23 +1,98 @@
 import React, { Component } from 'react'
-import {Platform, StyleSheet, Text, View,TouchableOpacity,Dimensions,Image} from 'react-native';
+import {Platform, StyleSheet, Text, View,TouchableOpacity,Dimensions,Image,Alert} from 'react-native';
 import { Card, CardItem, Content, Container , Button, Icon , Left, Body, Right} from 'native-base';
+
+import { inject , observer } from 'mobx-react';
+
+import axios from 'axios';
 
 const { width, height }= Dimensions.get('window');
 
-export default class CarparkDetail extends Component {
+class CarparkDetail extends Component {
     static navigationOptions = () => {
 		return {
 			header: null,
 		};
     };
+
+    constructor(props){
+        super(props);
+        this._authStore = this.props.authStore;
+        this._userStore = this.props.userStore;
+        this.state = {
+            isBookClick: false
+        }
+    }
+    
+    toogleOrderSummary = () => {
+        this.setState({
+            isBookClick: ! this.state.isBookClick
+        })
+    }
+    
+    submitOrderForUsers = (order, carparkId,userId, token) => {
+        const url = `https://parking-73057.firebaseio.com/ordersForUsers.json?auth=${token}`;
+        const orderData = {
+            order: order,
+            userId: userId,
+            carparkId: carparkId
+        }
+        console.log(orderData)
+        axios.post(url, orderData).then(
+            response => {
+                console.log(response)
+                if(response.status === 200) {
+                    this.props.navigation.navigate('OrderHistory')
+                }else{
+                    Alert.alert("Order Submission","Fail, please try again");
+                }
+            }
+        ).catch(e => {
+            console.log(e)
+        })
+    }  
+
+    submitOrderForManagers = (order, carparkId) => {
+        const url = `https://parking-73057.firebaseio.com/ordersForManager.json`;
+        const orderData = {
+            order: order,
+            carparkId: carparkId
+        }
+        axios.post(url, orderData).then(
+            response => {
+                if(response.status === 200){
+                    console.log("submit to manager succeesfully")
+                }else{
+                    console.log("fail to submit to manager ")
+                }
+            }
+        ).catch(e => {
+            console.log(e)
+        })
+    }
+
+    submitHandler = (order, carparkId, userId, token) => {
+        this.submitOrderForUsers(order,carparkId,userId,token);
+        this.submitOrderForManagers(order);
+    }
     render() {
+        const { isBookClick } = this.state;
         const carparkData = this.props.navigation.getParam('carparkData');
-        console.log(carparkData)
+        console.log(carparkData);
+        const {userId, access_token} = this._authStore;
+        const {email, plateNumber, phoneNumber} = this._userStore;
+        const {name, address, price, carparkId } = carparkData
+        const order = {
+            email: email,
+            plateNumber: plateNumber,
+            phoneNumber: phoneNumber,
+            time: new Date().toLocaleString()
+        }
         return (
             <Container>
                 <View style={styles.info__header__style}>
 					<View style={styles.info__header__button}>
-						<Button transparent onPress={() => this.props.navigation.goBack()}>
+						<Button transparent onPress={this.toogleOrderSummary}>
 							<Icon
 								type='Ionicons'
 								name={Platform.OS === 'ios' ? 'ios-arrow-down' : 'md-arrow-down'}
@@ -29,16 +104,19 @@ export default class CarparkDetail extends Component {
                 <Card >
                     <CardItem style={styles.cardHeader}>
                         <Left>
-                            <Text>{carparkData.name}</Text>
+                            <Text>{name}</Text>
                         </Left>
-                        <Right>
-                            <Button
-                                info rounded bordered style={styles.cardHeader_button}
-                                onPress={() => {this.props.navigation.navigate('CheckoutForm')}}
-                            >
-                                <Text style={styles.cardHeader_button_text}>Book</Text>
-                            </Button>
-						</Right>
+                        {isBookClick ? 
+                            null:
+                            <Right>
+                                <Button
+                                    info rounded bordered style={styles.cardHeader_button}
+                                    onPress={this.toogleOrderSummary}
+                                >
+                                    <Text style={styles.cardHeader_button_text}>Book</Text>
+                                </Button>
+                            </Right>
+                        }
                     </CardItem>
                     <CardItem cardBody style={styles.cardBody}>
                         <View style={{flex: 1}}>
@@ -53,20 +131,78 @@ export default class CarparkDetail extends Component {
                             </View>
                         </View>
                     </CardItem>
-                    
                     <CardItem footer>
-                        <Text>{carparkData.address}</Text>
+                        <Text>{address}</Text>
                     </CardItem>
                 </Card>
+                {isBookClick && 
+                    <Card >
+                        <CardItem style={styles.cardHeader} header bordered>
+                            <Left>
+                                <Text>$ {price} AUD/hr</Text>
+                            </Left>
+                        </CardItem>
+                        <CardItem bordered style={styles.cardBody}>
+                            <Left>
+                                <Text>Email:</Text>
+                            </Left>
+                            <Body>
+                                <Text>{email}</Text>
+                            </Body>
+                        </CardItem>
+                        <CardItem bordered style={styles.cardBody}>
+                            <Left>
+                                <Text>Plate Number: </Text>
+                            </Left>
+                            <Body>
+                                <Text>{plateNumber}</Text>
+                            </Body>
+                        </CardItem>
+                        {phoneNumber &&
+                            <CardItem bordered style={styles.cardBody}>
+                                <Left>
+                                    <Text>Phone Number: </Text>
+                                </Left>
+                                <Body>
+                                    <Text>{phoneNumber}</Text>
+                                </Body>
+                            </CardItem>
+                        }
+                        <CardItem footer>
+                            <Left>
+                                <Button
+                                    info rounded bordered style={styles.cardHeader_button}
+                                    onPress={this.toogleOrderSummary}
+                                >
+                                    <Text style={styles.cardHeader_button_text}>Cancel</Text>
+                                </Button>
+                            </Left>
+                            <Right>
+                                <Button
+                                    info rounded bordered style={styles.cardHeader_button}
+                                    onPress={plateNumber ? () => {
+                                                this.submitHandler(order,carparkId,userId,access_token)
+                                            }
+                                            :   
+                                            () => {Alert.alert("Please first record your card")}
+                                    }
+                                >
+                                    <Text style={styles.cardHeader_button_text}>Confirm</Text>
+                                </Button>
+                            </Right>
+                        </CardItem>
+                    </Card>
+                }
             </Container>
         )
     }
 }
 
+export default inject('userStore','authStore')(observer(CarparkDetail)) ;
 
 const styles = StyleSheet.create({
     info__header__style: {
-		height: 100,
+		height: 80,
 		flexDirection: 'column',
 		backgroundColor: 'transparent',
 		borderBottomWidth: 0,
@@ -112,7 +248,7 @@ const styles = StyleSheet.create({
 		backgroundColor:'transparent',
 	},
     image: {
-        height: Platform.OS === 'ios' ? height*0.45: height*0.62,
+        height: Platform.OS === 'ios' ? height*0.45: height*0.44,
 		width: width-4,
     }
 })

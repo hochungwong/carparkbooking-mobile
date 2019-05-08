@@ -22,6 +22,7 @@ class Main extends React.Component{
       super(props);
       this.state = {
         currentUser: null,
+        plateNumber: []
       }
       this._userStore = this.props.userStore;
       this._authStore = this.props.authStore;
@@ -78,14 +79,45 @@ class Main extends React.Component{
         console.log(e)
       })
     }
-    async componentDidMount(){
+
+    fetchCarplate = (userId, token) => {
+      const { setPlateNumber } = this._userStore;
+      const queryParams = '?auth=' + token + '&orderBy="userId"&equalTo="' + userId + '"';
+      const url = ('https://parking-73057.firebaseio.com/carplates.json' + queryParams);
+      axios.get(url).then(
+        response => {
+          console.log(response.data)
+          const fetchedData = [];
+          for ( let key in response.data ) {
+              fetchedData.push( {
+                  ...response.data[key],
+                  id: key
+              } );
+          }
+          if(fetchedData.length !== 0){
+            this.setState({
+              plateNumber: fetchedData
+            });
+            setPlateNumber(fetchedData[0].plate)
+          }
+        }
+      ).catch(e => {
+        console.log(e)
+      })
+    }
+
+    componentDidMount(){
+        const { setEmail } = this._userStore;
         const { currentUser } = firebase.auth();
+        const {userId,access_token} = this._authStore;
         this.setState({
             currentUser:currentUser
         });
+        currentUser && setEmail(currentUser.email)
         // firebase.messaging().getToken().then(
         //     token => console.log(token)
         // )
+        this.fetchCarplate(userId,access_token);
         this._setCoord()
         this._watchCoord()
     }
@@ -103,16 +135,24 @@ class Main extends React.Component{
     }
 
     jumpToMap = () => {
-        this.props.navigation.navigate('CarparkMap');
+      this.props.navigation.navigate('CarparkMap');
     }
     
     jumpToCam = () => {
       this.props.navigation.navigate('Cam');
     }
 
+    jumpToInfo = (email,plate) => {
+      this.props.navigation.navigate('UserInfo', {email: email, plate: plate});
+    }
+
+    jumpToHistory = () => {
+      this.props.navigation.navigate('OrderHistory')
+    }
     render(){
-        const {currentUser} = this.state;
+        const {currentUser ,plateNumber} = this.state;
         const { userId , access_token } = this._authStore;
+        const email = currentUser && currentUser.email;
         // const userId = this.props.navigation.getParam('userId');
         // const access_token = this.props.navigation.getParam('token');
         const {region ,currentAddress} = this._userStore;
@@ -120,11 +160,12 @@ class Main extends React.Component{
         return(
             <Container>
               <Header >
-                <Left />
-                <Body >
-                  <Text >Hi {currentUser && currentUser.email} !</Text>
-                </Body>
-                <Right />
+                <Text style={{justifyContent: 'center'}}>Hi {currentUser && currentUser.email} !</Text>
+                {/* <Left />
+                  <Body >
+                    
+                  </Body>
+                <Left /> */}
               </Header>
               <Content>
                 <List>
@@ -148,21 +189,49 @@ class Main extends React.Component{
                     </Left>
                     <Body>
                       <Text>Identify Your Car Plate</Text>
-                      <Text note numberOfLines={1}>Just need to take a photo of your car plate</Text>
+                      <Text note numberOfLines={2}>{plateNumber.length !== 0 ? `Your plate number:  ${plateNumber}` : "Just need to take a photo of your car plate"}</Text>
                     </Body>
                     <Right>
                       <Button onPress={this.jumpToCam} transparent>
-                        <Text >Start</Text>
+                        <Text >{plateNumber.length !== 0 ? "Modify" : "Start"}</Text>
                       </Button>
                     </Right>
                   </ListItem>
+                  <ListItem thumbnail>
+                    <Left>
+                      <Thumbnail square source={require('../assets/logo/info.png')} resizeMode='contain'/>
+                    </Left>
+                    <Body>
+                      <Text>User Information</Text>
+                      <Text note numberOfLines={1}>Current Account: {currentUser && currentUser.email}</Text>
+                    </Body>
+                    <Right>
+                      <Button onPress={()=>{this.jumpToInfo(email)}} transparent>
+                        <Text >View</Text>
+                      </Button>
+                    </Right>
+                  </ListItem>    
+                  <ListItem thumbnail>
+                    <Left>
+                      <Thumbnail square source={require('../assets/logo/history.png')} resizeMode='contain'/>
+                    </Left>
+                    <Body>
+                      <Text>Order History</Text>
+                      <Text note numberOfLines={1}>Most recent order: 8/5/2019</Text>
+                    </Body>
+                    <Right>
+                      <Button onPress={this.jumpToHistory} transparent>
+                        <Text >View</Text>
+                      </Button>
+                    </Right>
+                  </ListItem>    
                   <ListItem thumbnail>
                     <Left>
                       <Thumbnail square source={require('../assets/logo/signout.png')} resizeMode='contain'/>
                     </Left>
                     <Body>
                       <Text>Sign out</Text>
-                      <Text note numberOfLines={1}>Current Account: {currentUser && currentUser.email}</Text>
+                      <Text note numberOfLines={1}>Change Users?</Text>
                     </Body>
                     <Right>
                       <Button onPress={this.handleSignOut} transparent>

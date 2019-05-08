@@ -17,7 +17,7 @@ class Loading extends React.Component{
                 const userId = currentUser._user.uid;
                 const {setToken, setUserId} = this._authStore;
                 setUserId(userId);
-                firebase.messaging().getToken().then(
+                firebase.auth().currentUser.getIdToken(true).then(
                     token => setToken(token)
                 ).then(token => 
                     this.props.navigation.navigate('Main', {token: token, userId: userId})

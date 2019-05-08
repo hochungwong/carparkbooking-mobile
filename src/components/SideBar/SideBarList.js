@@ -14,6 +14,10 @@ export default class SideBarList extends Component {
         this.props.navigation.navigate('Main');
     }
 
+    jumpToCam = () => {
+        this.props.navigation.navigate('Cam')
+    }
+
     render() {
         return (
             <Content style={{backgroundColor:'#FFFFFF'}}>
@@ -25,6 +29,11 @@ export default class SideBarList extends Component {
                     <ListItem onPress={this.backToUser}>
                         <Text>
                             User Dashboard
+                        </Text>
+                    </ListItem>
+                    <ListItem onPress={this.jumpToCam}>
+                        <Text>
+                            Car Plate Recognition
                         </Text>
                     </ListItem>
                 </List>
