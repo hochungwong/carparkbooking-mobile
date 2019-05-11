@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import {Platform, StyleSheet, Text, View,TouchableOpacity,Dimensions,Image,Alert} from 'react-native';
-import { Card, CardItem, Content, Container , Button, Icon , Left, Body, Right} from 'native-base';
+import {Platform, StyleSheet, Text, View, Dimensions,Image,Alert} from 'react-native';
+import { Card, CardItem, Container , Button, Icon , Left, Body, Right} from 'native-base';
 
 import { inject , observer } from 'mobx-react';
 
@@ -71,21 +71,16 @@ class CarparkDetail extends Component {
         })
     }
 
-    submitHandler = (order, carparkId, userId, token) => {
-        this.submitOrderForUsers(order,carparkId,userId,token);
-        this.submitOrderForManagers(order);
-    }
     render() {
         const { isBookClick } = this.state;
         const carparkData = this.props.navigation.getParam('carparkData');
         console.log(carparkData);
         const {userId, access_token} = this._authStore;
-        const {email, plateNumber, phoneNumber} = this._userStore;
+        const { email, plateNumber } = this._userStore;
         const {name, address, price, carparkId } = carparkData
         const order = {
             email: email,
             plateNumber: plateNumber,
-            phoneNumber: phoneNumber,
             time: new Date().toLocaleString()
         }
         return (
@@ -158,16 +153,6 @@ class CarparkDetail extends Component {
                                 <Text>{plateNumber}</Text>
                             </Body>
                         </CardItem>
-                        {phoneNumber &&
-                            <CardItem bordered style={styles.cardBody}>
-                                <Left>
-                                    <Text>Phone Number: </Text>
-                                </Left>
-                                <Body>
-                                    <Text>{phoneNumber}</Text>
-                                </Body>
-                            </CardItem>
-                        }
                         <CardItem footer>
                             <Left>
                                 <Button
@@ -181,10 +166,11 @@ class CarparkDetail extends Component {
                                 <Button
                                     info rounded bordered style={styles.cardHeader_button}
                                     onPress={plateNumber ? () => {
-                                                this.submitHandler(order,carparkId,userId,access_token)
+                                                this.submitOrderForUsers(order,carparkId,userId,access_token),
+                                                this.submitOrderForManagers(order, carparkId)
                                             }
                                             :   
-                                            () => {Alert.alert("Please first record your card")}
+                                            () => {Alert.alert("Please first record your car plate")}
                                     }
                                 >
                                     <Text style={styles.cardHeader_button_text}>Confirm</Text>

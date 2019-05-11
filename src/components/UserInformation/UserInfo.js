@@ -7,7 +7,7 @@ import { inject, observer } from 'mobx-react';
 
 import metrics from '../config/metrics';
 
-import axios from 'axios';
+import firebase from 'react-native-firebase';
 
 class UserInfo extends Component {
     constructor(props){
@@ -16,44 +16,58 @@ class UserInfo extends Component {
         this._userStore = this.props.userStore;
         this.state = {
             email: this.props.navigation.getParam('email'),
-            plateNumber: this.props.navigation.getParam('plate'),
+            plateNumber: this._userStore.plateNumber,
             name:'',
             phoneNumber:'',
             show_avatar: this._userStore.avatar
         }
     }
 
+	componentDidMount(){
+		this.fetchInfo();
+	}
 
-    submitInfo = userId => {
-		const {access_token} = this._authStore;
-		const {setPhoneNumber}  = this._userStore;
-        const url = `https://parking-73057.firebaseio.com/userInfo.json?auth=${access_token}`;
-        const infoData = {
-            info: [
-                {'k': 'email', 'v': this.state.email},
-                {'k': 'plate', 'v': this.state.plateNumber},
-                {'k': 'name', 'v': this.state.name},
-                {'k': 'phone', 'v': this.state.phoneNumber},
-            ],
-            userId: userId
-		}
-		setPhoneNumber(this.state.phoneNumber);
-        axios.post(url ,infoData).then(
-            response => {
-                if(response.status === 200){
-                    Alert.alert('Info Sumbimittion',"Success")
-                }else{
-                    Alert.alert('Info Sumbimittion','Fail')
-                }
-			}
-        ).catch(e => {
-            console.log(e)
-        })
+    submitInfo = () => {
+		const {setPhoneNumber,email}  = this._userStore;
+		const {userId} = this._authStore;
+		const {plateNumber, name, phoneNumber} = this.state;
+        const userData = {
+			email,
+			plateNumber,
+			name,
+			phoneNumber,
+		  }
+		firebase.database().ref(`/users/${userId}`).set({
+			userData,
+			userId
+		}).then(() => {
+			Alert.alert("Suceessful Submission");
+		}).catch(e => {
+			Alert.alert("Failed Submission",e.message)
+		})
     }
+
+	fetchInfo = () => {
+		const { userId } = this._authStore;
+		const {setPlateNumber} = this._userStore;
+		firebase.database().ref(`/users/${userId}`).once('value').then(
+			snapshot => {
+				if(snapshot && snapshot.val() !== null){
+					const {phoneNumber,name,plateNumber} = snapshot.val().userData;
+					this.setState({
+						phoneNumber: phoneNumber,
+						name: name,
+					});
+					setPlateNumber(plateNumber)
+				}
+			}
+		).catch(e => {
+			console.log(e)
+		})
+	}
 
     render() {
         const { email, plateNumber, name, phoneNumber , show_avatar} = this.state;
-        const {userId} = this._authStore;
         return (
             <ImageBackground blurRadius={3} source={show_avatar} style={styles.edit__bg}>
 				<View style={styles.edit__header}>
@@ -66,12 +80,6 @@ class UserInfo extends Component {
 							/>
 						</Button>
 					</View>
-					{/* <View style={styles.edit__header__view}>
-						<Thumbnail style={styles.edit__profile__thumb} large source={this.state.show_avatar}/>
-						<Button transparent onPress={() =>this._selectPhoto()}>
-							<Text style={styles.edit__icon}>{I18n.t('info.profile')}</Text>
-						</Button>
-					</View> */}
 				</View>
 
 				<Content>
@@ -79,7 +87,6 @@ class UserInfo extends Component {
 						<Item style={styles.edit__item}>
 							<Thumbnail square source={require('../assets/info/info.png')}
 												 style={[styles.edit__thumb, {marginRight: 17, width: 14, height: 20}]}/>
-							{/* <Label style={styles.edit__input}>Email;:</Label> */}
 							<Text style={styles.info__text}>{email}</Text>
 						</Item>
 						<Item style={styles.edit__item}>
@@ -87,13 +94,11 @@ class UserInfo extends Component {
                                 square 
                                 source={require('../assets/info/lab.png')}
                                 style={[styles.edit__thumb, {marginRight: 14, width: 18, height: 14}]}/>
-							{/* <Text style={styles.edit__input}>Plate Number: </Text> */}
 							<Text style={styles.info__text}>{plateNumber ? plateNumber : "plate number"}</Text>
 						</Item>
                         <Item style={styles.edit__item}>
 							<Thumbnail square source={require('../assets/info/name.png')}
 												 style={[styles.edit__thumb, {marginRight: 14, width: 18, height: 14}]}/>
-							{/* <Text style={styles.edit__input}>Name: </Text> */}
 							<TextInput
 								value={name}
 								placeholder="Name"
@@ -104,7 +109,6 @@ class UserInfo extends Component {
 						<Item style={styles.edit__item}>
 							<Thumbnail square source={require('../assets/info/city.png')}
 												 style={[styles.edit__thumb, {marginRight: 14, width: 18, height: 14}]}/>
-							{/* <Text style={styles.edit__input}>Phone: </Text> */}
 							<TextInput
 								value={phoneNumber}
 								placeholder="Phone Number"
@@ -119,7 +123,7 @@ class UserInfo extends Component {
 						onPress={name === '' || phoneNumber === ''?
 							() => {Alert.alert("Please enter name or phone number")}
 							:
-							() => {this.submitInfo(userId)}
+							() => {this.submitInfo()}
 						}
 					>
 						<Text style={styles.edit__button__text}>Submit</Text>

@@ -4,6 +4,7 @@
 pod 'Firebase/Core'
 pod 'Firebase/Auth'
 pod 'Firebase/Messaging'
+pod 'Firebase/Database'
 
 target 'authfirebase' do
   # Uncomment the next line if you're using Swift or would like to use dynamic frameworks
@@ -16,7 +17,7 @@ target 'authfirebase' do
   #   # Pods for testing
   # end
 
-  pod 'react-native-maps', :path => '../node_modules/react-native-maps'
+  # pod 'react-native-maps', :path => '../node_modules/react-native-maps'
 
   target 'authfirebaseTests' do
     inherit! :search_paths

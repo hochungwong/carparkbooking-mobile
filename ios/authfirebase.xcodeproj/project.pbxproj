@@ -49,6 +49,7 @@
 		7C03135437E24712B213334D /* Feather.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5FD3CF0706354A049CDE8878 /* Feather.ttf */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		85AEED9EF2B14278B98B4817 /* Roboto.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 92A0856C68EC4C4B9A2770F3 /* Roboto.ttf */; };
+		89BBF7250DD991662BC2BA61 /* libPods-authfirebase.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6067285F7F2B993CF003348D /* libPods-authfirebase.a */; };
 		9007B76C225ECE920045E87C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9007B744225ECE920045E87C /* GoogleService-Info.plist */; };
 		9083D7D92281CD6300E831E7 /* openalpr.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9083D7D52281CD6300E831E7 /* openalpr.framework */; };
 		9083D7DA2281CD6300E831E7 /* tesseract.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9083D7D62281CD6300E831E7 /* tesseract.framework */; };
@@ -58,6 +59,7 @@
 		9083D7E12281CE1000E831E7 /* runtime_data in Resources */ = {isa = PBXBuildFile; fileRef = 9083D7DF2281CE1000E831E7 /* runtime_data */; };
 		9083D7E22281CE1000E831E7 /* openalpr.conf in Resources */ = {isa = PBXBuildFile; fileRef = 9083D7E02281CE1000E831E7 /* openalpr.conf */; };
 		90DBC849227C473E003F32B3 /* libAirMaps.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 90DBC848227C471F003F32B3 /* libAirMaps.a */; };
+		90ECAFDEBC69DCF979AA0BA2 /* libPods-authfirebaseTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 786620334B02F5EB7E5882D1 /* libPods-authfirebaseTests.a */; };
 		946451030333433185163389 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D2D338EF57CF4DA7B86DCB27 /* SimpleLineIcons.ttf */; };
 		ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
 		B2CBCBB9C18244F5967C9920 /* libRNFirebase.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B9320D30AA84BF9A635BBBF /* libRNFirebase.a */; };
@@ -422,8 +424,10 @@
 		5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
 		5F7D8736FCC920D3AACF2E36 /* libPods-authfirebase.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-authfirebase.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5FD3CF0706354A049CDE8878 /* Feather.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Feather.ttf; path = "../node_modules/native-base/Fonts/Feather.ttf"; sourceTree = "<group>"; };
+		6067285F7F2B993CF003348D /* libPods-authfirebase.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-authfirebase.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		69D042F8E07943B8BCA6D200 /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/native-base/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
 		70E41B4828CE4D28844FC4BB /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = "../node_modules/native-base/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
+		786620334B02F5EB7E5882D1 /* libPods-authfirebaseTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-authfirebaseTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
 		9007B744225ECE920045E87C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -464,6 +468,7 @@
 			files = (
 				140ED2AC1D01E1AD002B40FF /* libReact.a in Frameworks */,
 				CF5E57772E4D5A1463C6B881 /* libPods-authfirebaseTests.a in Frameworks */,
+				90ECAFDEBC69DCF979AA0BA2 /* libPods-authfirebaseTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -494,6 +499,7 @@
 				0A5635FFCEE90291184C5286 /* libPods-authfirebase.a in Frameworks */,
 				B2CBCBB9C18244F5967C9920 /* libRNFirebase.a in Frameworks */,
 				C48D0CFAD59E4B65B8FDC701 /* libRNOpenAlpr.a in Frameworks */,
+				89BBF7250DD991662BC2BA61 /* libPods-authfirebase.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -790,6 +796,8 @@
 				9083D7D62281CD6300E831E7 /* tesseract.framework */,
 				9083D7D72281CD6300E831E7 /* leptonica.framework */,
 				9083D7D82281CD6300E831E7 /* opencv2.framework */,
+				6067285F7F2B993CF003348D /* libPods-authfirebase.a */,
+				786620334B02F5EB7E5882D1 /* libPods-authfirebaseTests.a */,
 			);
 			name = Frameworks;
 			path = "../node_modules/react-native-openalpr/ios/Frameworks";

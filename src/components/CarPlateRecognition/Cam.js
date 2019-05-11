@@ -1,20 +1,15 @@
 import React, { Component } from 'react';
 import {
-  AppRegistry,
   StyleSheet,
   Text,
   View,
   Dimensions,
   TouchableOpacity,
-  Platform,
-  StatusBar,
-  Button,
 } from 'react-native';
 import Camera from 'react-native-openalpr';
 
-import axios from 'axios';
-
 import { inject, observer } from 'mobx-react';
+import firebase from 'react-native-firebase';
 
 const { width, height } = Dimensions.get('window');
 
@@ -47,22 +42,17 @@ class Cam extends Component {
   }
 
   postCarplate = plate => {
-      const {userId,access_token} = this._authStore;
+      const {userId} = this._authStore;
       const { setPlateNumber } = this._userStore;
-      const url = `https://parking-73057.firebaseio.com/carplates.json?auth=${access_token}`;
-      const platesData = {
-          plate: "PSV85Y",
-          userId: userId
-      };
-      axios.post(url, platesData).then(
-          response => {
-              console.log(response.data)
-              setPlateNumber(plate);
-        }
+      firebase.database().ref(`/carplates/${userId}`).set({
+        plate,
+        userId
+      }).then(
+        () => setPlateNumber(plate) 
       ).then(
-          data => this.props.navigation.navigate('Main')
+        () => this.props.navigation.navigate('Main')
       ).catch(e => {
-          console.log(e)
+        console.log(e)
       })
   }
 

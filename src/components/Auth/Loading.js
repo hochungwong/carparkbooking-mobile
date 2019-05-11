@@ -1,9 +1,10 @@
 import React from 'react';
 
-import { StyleSheet, Platform, Image, Text, View ,ActivityIndicator} from 'react-native';
+import { StyleSheet, Text, View ,ActivityIndicator} from 'react-native';
 import firebase from 'react-native-firebase';
 
 import { inject, observer } from 'mobx-react';
+
 class Loading extends React.Component{
     constructor(props){
         super(props);
@@ -25,7 +26,7 @@ class Loading extends React.Component{
                     console.log(e)
                 })
             }else{
-                this.props.navigation.navigate('SignUp');
+                this.props.navigation.navigate('Login');
             }
         })
     }

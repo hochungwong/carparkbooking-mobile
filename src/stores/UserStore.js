@@ -14,7 +14,7 @@ export default class UserStore {
     currentAddress = "";
     avatar = require('../components/assets/logo/carpark.png');
     email = "";
-    plateNumber = null;
+    plateNumber = "";
     phoneNumber = null;
 
     setRegion = newRegion => Object.assign(this.region, newRegion)
@@ -46,6 +46,10 @@ export default class UserStore {
     setPhoneNumber = phone => {
         this.phoneNumber = phone;
     }
+
+    wipePlateNumber = () => {
+        this.plateNumber = null
+    }
 }
 
 decorate(UserStore, {
@@ -63,5 +67,6 @@ decorate(UserStore, {
     setAddress: action,
     setEmail: action,
     setPlateNumber: action,
-    setPhoneNumber: action
+    setPhoneNumber: action,
+    wipePlateNumber: action
 })

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-import {Platform, StyleSheet, Text,View,TouchableOpacity,Dimensions,Image,Alert} from 'react-native';
+import {Platform, StyleSheet, Text,View,TouchableOpacity,Dimensions,Image,Alert,ScrollView} from 'react-native';
 import { Card, CardItem, Content, Container , Button, Icon , Left, Body, Right} from 'native-base';
 
 import { inject, observer } from 'mobx-react';
@@ -54,7 +54,7 @@ class OrderHistory extends Component {
         const { orders } = this.state;
         console.log(orders);
         return (
-            <Container>
+            <ScrollView>
                 <View style={styles.info__header__style}>
 					<View style={styles.info__header__button}>
 						<Button transparent ƒ>
@@ -90,34 +90,6 @@ class OrderHistory extends Component {
                                     <Text>{order.order.plateNumber}</Text>
                                 </Body>
                             </CardItem>
-                            {/* {phoneNumber &&
-                                <CardItem bordered style={styles.cardBody}>
-                                    <Left>
-                                        <Text>Phone Number: </Text>
-                                    </Left>
-                                    <Body>
-                                        <Text>{order.order.phoneNumber}</Text>
-                                    </Body>
-                                </CardItem>
-                            } */}
-                            {/* <CardItem footer>
-                                <Left>
-                                    <Button
-                                        info rounded bordered style={styles.cardHeader_button}
-                                        onPress={this.toogleOrderSummary}
-                                    >
-                                        <Text style={styles.cardHeader_button_text}>Cancel</Text>
-                                    </Button>
-                                </Left>
-                                <Right>
-                                    <Button
-                                        info rounded bordered style={styles.cardHeader_button}
-                                        onPress={() => {this.submitHandler(order,userId,access_token)}}
-                                    >
-                                        <Text style={styles.cardHeader_button_text}>Confirm</Text>
-                                    </Button>
-                                </Right>
-                            </CardItem> */}
                     </Card>
                     
                 )): 
@@ -131,7 +103,7 @@ class OrderHistory extends Component {
                     </CardItem>
                 </Card>
             }
-        </Container>
+        </ScrollView>
         )
     }
 }

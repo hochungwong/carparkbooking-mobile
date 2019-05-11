@@ -72,7 +72,6 @@ class CarparkMarker extends Component{
                 <Marker
                   key = {key}
                   coordinate = {i.coordinate}
-                //   onPress = {()=>{this.jumpToCarparkDetails(i)}}
                   onPress={() => {this.props.navigation.navigate('CarparkDetail', {carparkData: i})}}
                 >
                     <View style={{backgroundColor: "red", padding:5, borderRadius:50, opacity:0.8}}>

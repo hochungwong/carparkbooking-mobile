@@ -8,9 +8,15 @@ export default class SignUp extends React.Component {
   
     handleSignUp = () => {
       const { email, password } = this.state
-      firebase
-        .auth()
-        .createUserWithEmailAndPassword(email, password)
+      firebase.auth().createUserWithEmailAndPassword(email, password).then(
+        response => {
+          console.log(response.user.uid, response.user.email)
+          firebase.database().ref("/appUsers").push({
+            email: response.user.email,
+            userId: response.user.uid
+          })
+        }
+      )
         .then(() => this.props.navigation.navigate('Main'))
         .catch(error => this.setState({ 
           errorMessage: error.message 
