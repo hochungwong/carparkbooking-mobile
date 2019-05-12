@@ -17,6 +17,7 @@
     "react-native-gesture-handler": "^1.1.0",
     "react-native-maps": "^0.24.2",
     "react-native-openalpr": "git://github.com/RobertSasak/react-native-openalpr.git#master",
+    "react-native-timer-countdown": "^4.1.0",
     "react-navigation": "^3.6.1"
   },
   "devDependencies": {

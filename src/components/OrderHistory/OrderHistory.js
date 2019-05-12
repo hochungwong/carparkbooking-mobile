@@ -45,19 +45,23 @@ class OrderHistory extends Component {
         })
     }
 
+
     componentDidMount(){
         const { userId, access_token } = this._authStore;
         this.fetchOrder(userId, access_token);
     }
     
+    jmupToOrderDetails = order => {
+        this.props.navigation.navigate("OrderDetails", {order: order});
+    }
+
     render() {
         const { orders } = this.state;
-        console.log(orders);
         return (
             <ScrollView>
                 <View style={styles.info__header__style}>
 					<View style={styles.info__header__button}>
-						<Button transparent ƒ>
+						<Button transparent >
 							<Icon
 								type='Ionicons'
 								name={Platform.OS === 'ios' ? 'ios-arrow-down' : 'md-arrow-down'}
@@ -67,12 +71,15 @@ class OrderHistory extends Component {
 					</View>
 				</View>
             {orders.length !== 0?
-                orders.map((order,key) => (
-                    <Card key={key}>
+                orders.map(order => (
+                    <Card key={order.id}>
                         <CardItem style={styles.cardHeader} header bordered>
                             <Left>
-                                <Text>{order.order.time}</Text>
+                                <Text>{new Date(order.startedTime).toLocaleString()}</Text>
                             </Left>
+                            <Body>
+                                <Text>{order.id}</Text>
+                            </Body>
                         </CardItem>
                         <CardItem bordered style={styles.cardBody}>
                                 <Left>
@@ -89,6 +96,11 @@ class OrderHistory extends Component {
                                 <Body>
                                     <Text>{order.order.plateNumber}</Text>
                                 </Body>
+                            </CardItem>
+                            <CardItem footer >
+                                <Right >
+                                    <Text onPress = {() => {this.jmupToOrderDetails(order)}}>Order Details ></Text>
+                                </Right>
                             </CardItem>
                     </Card>
                     

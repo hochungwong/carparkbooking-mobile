@@ -5,6 +5,7 @@ import { Card, CardItem, Container , Button, Icon , Left, Body, Right} from 'nat
 import { inject , observer } from 'mobx-react';
 
 import axios from 'axios';
+import firebase from 'react-native-firebase';
 
 const { width, height }= Dimensions.get('window');
 
@@ -20,7 +21,9 @@ class CarparkDetail extends Component {
         this._authStore = this.props.authStore;
         this._userStore = this.props.userStore;
         this.state = {
-            isBookClick: false
+            isBookClick: false,
+            plateNumber: '',
+            carparkId: ''
         }
     }
     
@@ -30,46 +33,63 @@ class CarparkDetail extends Component {
         })
     }
     
-    submitOrderForUsers = (order, carparkId,userId, token) => {
-        const url = `https://parking-73057.firebaseio.com/ordersForUsers.json?auth=${token}`;
-        const orderData = {
-            order: order,
-            userId: userId,
-            carparkId: carparkId
-        }
-        console.log(orderData)
-        axios.post(url, orderData).then(
-            response => {
-                console.log(response)
-                if(response.status === 200) {
-                    this.props.navigation.navigate('OrderHistory')
-                }else{
-                    Alert.alert("Order Submission","Fail, please try again");
-                }
+    submitOrder = (order, carparkId,userId, token) => {
+        const sessionsRef = firebase.database().ref("sessions");
+        sessionsRef.set({
+            startedAt: firebase.database.ServerValue.TIMESTAMP
+        });
+        sessionsRef.once("value").then(
+            snapshot => {
+                const serverTime = snapshot.val().startedAt;
+                return serverTime;
+        }).then(serverTime => {
+            //submit to ordersForUsers
+            const url = `https://parking-73057.firebaseio.com/ordersForUsers.json?auth=${token}`;
+            const orderData = {
+                order: order,
+                userId: userId,
+                carparkId: carparkId,
+                startedTime: serverTime,
+                endTime: serverTime + 15 * 60 * 1000 
             }
-        ).catch(e => {
+            console.log(orderData)
+            axios.post(url, orderData).then(
+                response => {
+                    console.log(response)
+                    if(response.status === 200) {
+                        this.props.navigation.navigate('OrderHistory');
+                    }else{
+                        Alert.alert("Order Submission","Fail, please try again");
+                    }
+                }
+            ).catch(e => {
+                console.log(e)
+            })
+            return serverTime;
+        }).then(serverTime => {
+            //submit for managers
+            const url = `https://parking-73057.firebaseio.com/ordersForManager.json`;
+            const orderData = {
+                order: order,
+                carparkId: carparkId,
+                startedTime: serverTime,
+                endTime: serverTime + 15 * 60 * 1000
+            }
+            axios.post(url, orderData).then(
+                response => {
+                    if(response.status === 200){
+                        console.log("submit to manager succeesfully")
+                    }else{
+                        console.log("fail to submit to manager ")
+                    }
+                }
+            ).catch(e => {
+                console.log(e)
+            })
+        }).catch(e => {
             console.log(e)
         })
     }  
-
-    submitOrderForManagers = (order, carparkId) => {
-        const url = `https://parking-73057.firebaseio.com/ordersForManager.json`;
-        const orderData = {
-            order: order,
-            carparkId: carparkId
-        }
-        axios.post(url, orderData).then(
-            response => {
-                if(response.status === 200){
-                    console.log("submit to manager succeesfully")
-                }else{
-                    console.log("fail to submit to manager ")
-                }
-            }
-        ).catch(e => {
-            console.log(e)
-        })
-    }
 
     render() {
         const { isBookClick } = this.state;
@@ -81,7 +101,6 @@ class CarparkDetail extends Component {
         const order = {
             email: email,
             plateNumber: plateNumber,
-            time: new Date().toLocaleString()
         }
         return (
             <Container>
@@ -166,8 +185,7 @@ class CarparkDetail extends Component {
                                 <Button
                                     info rounded bordered style={styles.cardHeader_button}
                                     onPress={plateNumber ? () => {
-                                                this.submitOrderForUsers(order,carparkId,userId,access_token),
-                                                this.submitOrderForManagers(order, carparkId)
+                                                this.submitOrder(order,carparkId,userId,access_token)
                                             }
                                             :   
                                             () => {Alert.alert("Please first record your car plate")}

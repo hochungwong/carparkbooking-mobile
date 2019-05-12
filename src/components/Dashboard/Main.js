@@ -82,9 +82,7 @@ class Main extends React.Component{
       firebase.database().ref(`/carplates/${userId}`).once('value').
         then(snapshot => {
           if(snapshot && snapshot.val() !== null){
-            console.log("snapshot",snapshot.val())
             const {plate} = snapshot.val();
-            console.log(plate);
             setPlateNumber(plate);
           }
         }).catch(e => [

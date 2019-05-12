@@ -16,6 +16,8 @@ import OrderHistory from '../components/OrderHistory/OrderHistory';
 
 import UserInfo from '../components/UserInformation/UserInfo';
 
+import OrderDetails from '../components/OrderHistory/OrderDetails';
+
 // const CarparkDetailStack = createStackNavigator(
 //   {
 //     CarparkDetail: {
@@ -65,6 +67,12 @@ const MainStack = createStackNavigator(
       screen: UserInfo,
       navigationOptions: () => ({
         heaeder: null
+      })
+    },
+    OrderDetails: {
+      screen: OrderDetails,
+      navigationOptions: () => ({
+        header: null
       })
     }
   },
