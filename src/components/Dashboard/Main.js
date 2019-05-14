@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { StyleSheet } from 'react-native';
+import { StyleSheet, AsyncStorage } from 'react-native';
 import firebase from 'react-native-firebase'
 import { observer, inject } from 'mobx-react';
 
@@ -77,48 +77,25 @@ class Main extends React.Component{
       })
     }
 
-    fetchCarplate = userId => {
-      const {setPlateNumber} = this._userStore;
-      firebase.database().ref(`/carplates/${userId}`).once('value').
-        then(snapshot => {
-          if(snapshot && snapshot.val() !== null){
-            const {plate} = snapshot.val();
-            setPlateNumber(plate);
-          }
-        }).catch(e => [
-          console.log(e)
-        ])
-    }
-
     componentDidMount(){
         const { setEmail } = this._userStore;
         const { currentUser } = firebase.auth();
-        const {userId} = this._authStore;
-        console.log(userId)
         this.setState({
             currentUser:currentUser
         });
         currentUser && setEmail(currentUser.email)
-        this.fetchCarplate(userId);
-        this._setCoord()
-        this._watchCoord()
+        this._setCoord();
+        this._watchCoord();
     }
 
-    componentWillUnmount(){
-      const { wipeUserId, wipeToken } = this._authStore;
-      const { wipePlateNumber } = this._userStore;
-      wipeToken();
-      wipeUserId();
-      wipePlateNumber();
-    }
     handleSignOut = () => {
-        const { wipeUserId, wipeToken } = this._authStore;
-        const { wipePlateNumber } = this._userStore;
-        firebase.auth().signOut(()=>{
-          wipeUserId();
-          wipeToken();
-          wipePlateNumber();
-        }).then(() => {
+        firebase.auth().signOut( response =>{
+          console.log(response)
+        }).then(
+          () => {
+            AsyncStorage.removeItem("access_token");
+          }
+        ).then(() => {
           this.props.navigation.navigate('Login');
         }).catch(e => 
           console.log(e)
@@ -137,17 +114,17 @@ class Main extends React.Component{
         this.props.navigation.navigate('UserInfo', {email: email});
     }
 
-    jumpToHistory = () => {
-      this.props.navigation.navigate('OrderHistory')
+    jumpToHistory = orders => {
+      this.props.navigation.navigate('OrderHistory', {orders: orders})
     }
+
     render(){
         const {currentUser} = this.state;
-        const { userId , access_token } = this._authStore;
+        const { orders, plateNumber } = this.props;
         const email = currentUser && currentUser.email;
-        const {plateNumber} = this._userStore;
         console.log(plateNumber)
+        console.log(orders);
         const {region ,currentAddress} = this._userStore;
-        console.log(userId, "/", access_token)
         return(
             <Container>
               <Header >
@@ -205,11 +182,19 @@ class Main extends React.Component{
                       <Text>Order History</Text>
                       <Text note numberOfLines={1}>Most recent order: 8/5/2019</Text>
                     </Body>
-                    <Right>
-                      <Button onPress={this.jumpToHistory} transparent>
-                        <Text >View</Text>
-                      </Button>
-                    </Right>
+                    {orders === null? 
+                      <Right>
+                        <Button disabled transparent>
+                          <Text >Loading</Text>
+                        </Button>
+                      </Right>
+                      :
+                      <Right>
+                        <Button onPress={() => {this.jumpToHistory(orders)}} transparent>
+                          <Text >View</Text>
+                        </Button>
+                      </Right>
+                    }
                   </ListItem>    
                   <ListItem thumbnail>
                     <Left>

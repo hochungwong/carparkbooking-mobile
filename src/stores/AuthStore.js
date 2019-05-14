@@ -12,22 +12,14 @@ class AuthStore {
         this.userId = userId
     }
 
-    wipeUserId = () => {
-        this.userId = null;
-    }
-
-    wipeToken = () => {
-        this.access_token = null
-    }
 }
 
 decorate(AuthStore, {
     access_token: observable,
     userId: observable,
+
     setToken: action,
     setUserId: action,
-    wipeUserId: action,
-    wipeToken: action
 })
 
 export default AuthStore ;

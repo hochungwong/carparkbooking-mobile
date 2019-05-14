@@ -5,7 +5,7 @@ import { createStackNavigator,createAppContainer, createSwitchNavigator} from 'r
 import Loading from '../components/Auth/Loading';
 import SignUp from '../components/Auth/Signup';
 import Login from '../components/Auth/Login';
-import Main from '../components/Dashboard/Main';
+import Main from '../containers/MainContainer';
 
 import CarparkMap from '../components/MapView/MapView';
 import CarparkDetail from '../components/Carpark/CarparkDetail';
@@ -69,12 +69,6 @@ const MainStack = createStackNavigator(
         heaeder: null
       })
     },
-    OrderDetails: {
-      screen: OrderDetails,
-      navigationOptions: () => ({
-        header: null
-      })
-    }
   },
   {
     mode: 'modal',
@@ -103,7 +97,12 @@ const RootStack = createAppContainer(createSwitchNavigator(
       screen: Loading
     },
     Main: MainStack,
-    
+    OrderDetails: {
+      screen: OrderDetails,
+      navigationOptions: () => ({
+        header: null
+      })
+    }
   },
   {
     initialRouteName:'Loading'

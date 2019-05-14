@@ -15,37 +15,39 @@ class OrderDetails extends Component {
     constructor(props){
         super(props);
         this.state = {
-            
+            isOrderCancelled: false
         }
-        this._authStore = this.props.authStore;
-        this._userStore = this.props.userStore;
     }
    
+    
     //cancel order in 15 minutes
-    cancelOrderInSpecificTime = () => {
-        const order = this.props.navigation.getParam('order');
-        const {id} = order;
-        const ordersForUsersRef = firebase.database().ref(`/ordersForUsers/${id}`);
+    cancelOrderInSpecificTime = orderId => {
+        const ordersForUsersRef = firebase.database().ref(`/ordersForUsers/${orderId}`);
         ordersForUsersRef.once('value').then(
             snapshot => {
                 snapshot.forEach(child => {
                     child.ref.set(null)
                 });
             }
+        ).then(
+            this.setState({
+                isOrderCancelled: true
+            })
         ).catch(e => {
             console.log(e)
         })
     }  
 
-    componentDidMount(){
-        // this.cancelOrderInSpecificTime();
+    backToMain = () => {
+        this.props.navigation.navigate('Main');
     }
     
     render() {
         const order  = this.props.navigation.getParam('order');
+        const { isOrderCancelled } = this.state;
         const orderEndTime = order.endTime;
         console.log(orderEndTime);
-        const curretnTime = Number(Date.now());
+        const curretnTime = Number(Date.now()) + 14.5 * 60 * 1000;
         console.log(curretnTime);
         return (
             <ScrollView>
@@ -60,10 +62,10 @@ class OrderDetails extends Component {
 						</Button>
 					</View>
 				</View>
-                    <Card key={order.id}>
+                    <Card >
                         <CardItem style={styles.cardHeader} header bordered>
                             <Left>
-                                <Text>{new Date(order.time).toLocaleString()}</Text>
+                                <Text>{new Date(order.startedTime).toLocaleString()}</Text>
                             </Left>
                             <Body>
                                 <Text>{order.id}</Text>
@@ -89,24 +91,36 @@ class OrderDetails extends Component {
                             {/* <Left>
                                 <Text >Please Arrive at the carpark within 15 minitues</Text>
                             </Left> */}
-                            <TimerCountdown
-                                initialMilliseconds={orderEndTime - curretnTime}
-                                onTick={(milliseconds) => console.log("tick", milliseconds)}
-                                onExpire={() => {this.cancelOrderInSpecificTime()}}
-                                formatMilliseconds={(milliseconds) => {
-                                    const remainingSec = Math.round(milliseconds / 1000);
-                                    const seconds = parseInt((remainingSec % 60).toString(), 10);
-                                    const minutes = parseInt(((remainingSec / 60) % 60).toString(), 10);
-                                    const hours = parseInt((remainingSec / 3600).toString(), 10);
-                                    const s = seconds < 10 ? '0' + seconds : seconds;
-                                    const m = minutes < 10 ? '0' + minutes : minutes;
-                                    let h = hours < 10 ? '0' + hours : hours;
-                                    h = h === '00' ? '' : h + ':';
-                                    return h + m + ':' + s;
-                                }}
-                                allowFontScaling={true}
-                                style={{ fontSize: 20 }}
-                            />
+                            {isOrderCancelled ? 
+                                <Left>
+                                    <Text>Order Cancelled</Text>
+                                </Left>
+                                :
+                                <Left>
+                                    <Text>Please arrive within{' '}</Text>
+                                    <TimerCountdown
+                                        initialMilliseconds={orderEndTime - curretnTime}
+                                        onTick={(milliseconds) => console.log("tick", milliseconds)}
+                                        onExpire={() => {this.cancelOrderInSpecificTime(order.id)}}
+                                        formatMilliseconds={(milliseconds) => {
+                                            const remainingSec = Math.round(milliseconds / 1000);
+                                            const seconds = parseInt((remainingSec % 60).toString(), 10);
+                                            const minutes = parseInt(((remainingSec / 60) % 60).toString(), 10);
+                                            const hours = parseInt((remainingSec / 3600).toString(), 10);
+                                            const s = seconds < 10 ? '0' + seconds : seconds;
+                                            const m = minutes < 10 ? '0' + minutes : minutes;
+                                            let h = hours < 10 ? '0' + hours : hours;
+                                            h = h === '00' ? '' : h + ':';
+                                            return h + m + ':' + s;
+                                        }}
+                                        allowFontScaling={true}
+                                        style={{ fontSize: 20 }}
+                                    />
+                                </Left>
+                            }
+                            <Right>
+                                <Text onPress={this.backToMain}>Back to Main</Text>
+                            </Right>
                         </CardItem>
                     </Card>
         </ScrollView>
@@ -114,7 +128,7 @@ class OrderDetails extends Component {
     }
 }
 
-export default inject('authStore','userStore')(observer(OrderDetails)) ;
+export default OrderDetails ;
 
 const styles = StyleSheet.create({
     info__header__style: {

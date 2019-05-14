@@ -23,7 +23,8 @@ class CarparkDetail extends Component {
         this.state = {
             isBookClick: false,
             plateNumber: '',
-            carparkId: ''
+            carparkId: '',
+            isOrdered: false
         }
     }
     
@@ -32,6 +33,7 @@ class CarparkDetail extends Component {
             isBookClick: ! this.state.isBookClick
         })
     }
+
     
     submitOrder = (order, carparkId,userId, token) => {
         const sessionsRef = firebase.database().ref("sessions");
@@ -55,12 +57,12 @@ class CarparkDetail extends Component {
             console.log(orderData)
             axios.post(url, orderData).then(
                 response => {
-                    console.log(response)
+                    // console.log(response.data)
                     if(response.status === 200) {
-                        this.props.navigation.navigate('OrderHistory');
+                        this.props.navigation.navigate('OrderDetails', {order:  orderData});
                     }else{
                         Alert.alert("Order Submission","Fail, please try again");
-                    }
+                    }           
                 }
             ).catch(e => {
                 console.log(e)
@@ -91,8 +93,22 @@ class CarparkDetail extends Component {
         })
     }  
 
+    componentDidMount() {
+        const orders  = JSON.parse(this._userStore.orders);
+        const carparkData = this.props.navigation.getParam('carparkData');
+        const { carparkId } = carparkData;
+        console.log(orders);
+        orders && orders.map(order => {
+            if (order.carparkId.toString() === carparkId){
+                this.setState({
+                    isOrdered: true
+                })
+            }
+        })
+    }
+
     render() {
-        const { isBookClick } = this.state;
+        const { isBookClick , isOrdered } = this.state;
         const carparkData = this.props.navigation.getParam('carparkData');
         console.log(carparkData);
         const {userId, access_token} = this._authStore;
@@ -120,8 +136,12 @@ class CarparkDetail extends Component {
                         <Left>
                             <Text>{name}</Text>
                         </Left>
-                        {isBookClick ? 
-                            null:
+                        {/* {isBookClick ?  */}
+                        {isOrdered ?
+                            <Right>
+                                <Text style={styles.cardHeader_button_text}>AlreadyBooked</Text>
+                            </Right>
+                            :
                             <Right>
                                 <Button
                                     info rounded bordered style={styles.cardHeader_button}

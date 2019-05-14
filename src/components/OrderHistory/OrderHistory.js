@@ -3,9 +3,9 @@ import React, { Component } from 'react'
 import {Platform, StyleSheet, Text,View,TouchableOpacity,Dimensions,Image,Alert,ScrollView} from 'react-native';
 import { Card, CardItem, Content, Container , Button, Icon , Left, Body, Right} from 'native-base';
 
-import { inject, observer } from 'mobx-react';
+import firebase from 'react-native-firebase';
 
-import axios from 'axios';
+import TimerCountdown from 'react-native-timer-countdown';
 
 const { width , height } = Dimensions.get('window');
 
@@ -13,50 +13,33 @@ class OrderHistory extends Component {
     constructor(props){
         super(props);
         this.state = {
-            orders: []
+            orders: [],
+            isOrderCancelled: false
         }
-        this._authStore = this.props.authStore;
-        this._userStore = this.props.userStore;
     }
    
-    
-    fetchOrder = (userId, token) => {
-        const queryParams = '?auth=' + token + '&orderBy="userId"&equalTo="' + userId + '"';
-        const url = (`https://parking-73057.firebaseio.com/ordersForUsers.json` + queryParams);
-        axios.get(url).then(
-            response => {
-                if(response.status === 200) {
-                    const fetchedData = [];
-                    for ( let key in response.data ) {
-                        fetchedData.push( {
-                            ...response.data[key],
-                            id: key
-                        } );
-                    }
-                    this.setState({
-                        orders: fetchedData
-                    })
-                }else{
-                    console.log('Fetch Failed');
-                }
+    //cancel order in 15 minutes
+    cancelOrderInSpecificTime = orderId => {
+        const ordersForUsersRef = firebase.database().ref(`/ordersForUsers/${orderId}`);
+        ordersForUsersRef.once('value').then(
+            snapshot => {
+                snapshot.forEach(child => {
+                    child.ref.set(null)
+                });
             }
+        ).then(
+            this.setState({
+                isOrderCancelled: true
+            })
         ).catch(e => {
             console.log(e)
         })
-    }
+    }  
 
-
-    componentDidMount(){
-        const { userId, access_token } = this._authStore;
-        this.fetchOrder(userId, access_token);
-    }
-    
-    jmupToOrderDetails = order => {
-        this.props.navigation.navigate("OrderDetails", {order: order});
-    }
 
     render() {
-        const { orders } = this.state;
+        const orders = this.props.navigation.getParam('orders');
+        const { isOrderCancelled } = this.state;
         return (
             <ScrollView>
                 <View style={styles.info__header__style}>
@@ -98,9 +81,30 @@ class OrderHistory extends Component {
                                 </Body>
                             </CardItem>
                             <CardItem footer >
-                                <Right >
-                                    <Text onPress = {() => {this.jmupToOrderDetails(order)}}>Order Details ></Text>
-                                </Right>
+                                {isOrderCancelled ? 
+                                    <Left>
+                                        <Text>Order Cancelled</Text>
+                                    </Left>
+                                    :
+                                    <TimerCountdown
+                                        initialMilliseconds={order.endTime - Number(Date.now()) -  14.5 * 60 * 1000}
+                                        onTick={(milliseconds) => console.log("tick", milliseconds)}
+                                        onExpire={() => {this.cancelOrderInSpecificTime(order.id)}}
+                                        formatMilliseconds={(milliseconds) => {
+                                            const remainingSec = Math.round(milliseconds / 1000);
+                                            const seconds = parseInt((remainingSec % 60).toString(), 10);
+                                            const minutes = parseInt(((remainingSec / 60) % 60).toString(), 10);
+                                            const hours = parseInt((remainingSec / 3600).toString(), 10);
+                                            const s = seconds < 10 ? '0' + seconds : seconds;
+                                            const m = minutes < 10 ? '0' + minutes : minutes;
+                                            let h = hours < 10 ? '0' + hours : hours;
+                                            h = h === '00' ? '' : h + ':';
+                                            return h + m + ':' + s;
+                                        }}
+                                        allowFontScaling={true}
+                                        style={{ fontSize: 20 }}
+                                    />
+                                }
                             </CardItem>
                     </Card>
                     
@@ -120,7 +124,7 @@ class OrderHistory extends Component {
     }
 }
 
-export default inject('authStore','userStore')(observer(OrderHistory)) ;
+export default OrderHistory ;
 
 const styles = StyleSheet.create({
     info__header__style: {
