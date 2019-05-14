@@ -22,7 +22,6 @@ class Main extends React.Component{
       super(props);
       this.state = {
         currentUser: null,
-        plateNumber: ''
       }
       this._userStore = this.props.userStore;
       this._authStore = this.props.authStore;
@@ -122,7 +121,6 @@ class Main extends React.Component{
         const {currentUser} = this.state;
         const { orders, plateNumber } = this.props;
         const email = currentUser && currentUser.email;
-        console.log(plateNumber)
         console.log(orders);
         const {region ,currentAddress} = this._userStore;
         return(

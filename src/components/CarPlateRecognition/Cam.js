@@ -13,6 +13,7 @@ import firebase from 'react-native-firebase';
 
 const { width, height } = Dimensions.get('window');
 
+//Cam recognition
 class Cam extends Component {
     constructor(props) {
     super(props);
@@ -75,6 +76,7 @@ class Cam extends Component {
         alignItems: 'center'
       }
     }
+
     return (
       <View style={styles.container}>
         <Camera
@@ -119,7 +121,6 @@ class Cam extends Component {
                     Please place car plate within the triangel
                 </Text>
             }
-            
         </View>
        </View> 
     );

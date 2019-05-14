@@ -12,11 +12,11 @@ export default class SignUp extends React.Component {
         response => {
           console.log(response);
         }
-      )
-        .then(() => this.props.navigation.navigate('Main'))
-        .catch(error => this.setState({ 
+      ).then(() => 
+        this.props.navigation.navigate('Main')
+      ).catch(error => this.setState({ 
           errorMessage: error.message 
-        }))
+      }))
     }
     
     signUpPage = () => {
@@ -38,7 +38,7 @@ export default class SignUp extends React.Component {
             style={styles.textInput}
             onChangeText={email => this.setState({ email })}
             value={email}
-        />
+          />
           <TextInput
             secureTextEntry
             placeholder="Password"

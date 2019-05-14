@@ -3,8 +3,6 @@ import React, { Component } from 'react'
 import {Platform, StyleSheet, Text,View,TouchableOpacity,Dimensions,Image,Alert,ScrollView} from 'react-native';
 import { Card, CardItem, Content, Container , Button, Icon , Left, Body, Right} from 'native-base';
 
-import { inject, observer } from 'mobx-react';
-
 import firebase from 'react-native-firebase';
 
 import TimerCountdown from "react-native-timer-countdown";
@@ -18,8 +16,7 @@ class OrderDetails extends Component {
             isOrderCancelled: false
         }
     }
-   
-    
+
     //cancel order in 15 minutes
     cancelOrderInSpecificTime = orderId => {
         const ordersForUsersRef = firebase.database().ref(`/ordersForUsers/${orderId}`);
