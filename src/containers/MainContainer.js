@@ -17,7 +17,7 @@ class MainContainer extends Component {
             () => {
                 AsyncStorage.getItem("access_token").then(
                     access_token => {
-                        console.log(access_token);
+                        // console.log(access_token);
                         fetchOrders(userId, access_token);
                     }
                 )
@@ -33,7 +33,6 @@ class MainContainer extends Component {
     render() {
         const { userStore, authStore } = this.props;
         const { access_token } = authStore;
-        console.log(access_token)
         const { orders ,plateNumber } = userStore;
         const _orders = JSON.parse(orders);
         return (

@@ -35,7 +35,7 @@ class CarparkDetail extends Component {
     }
 
     
-    submitOrder = (order, carparkId,userId, token) => {
+    submitOrder = (order, plateNumber ,carparkId,userId, token) => {
         const sessionsRef = firebase.database().ref("sessions");
         sessionsRef.set({
             startedAt: firebase.database.ServerValue.TIMESTAMP
@@ -70,22 +70,35 @@ class CarparkDetail extends Component {
             return serverTime;
         }).then(serverTime => {
             //submit for managers
-            const url = `https://parking-73057.firebaseio.com/ordersForManager.json`;
-            const orderData = {
-                order: order,
-                carparkId: carparkId,
+            // const url = `https://parking-73057.firebaseio.com/ordersForManager.json`;
+            // const orderData = {
+            //     order: order,
+            //     carparkId: carparkId,
+            //     startedTime: serverTime,
+            //     endTime: serverTime + 15 * 60 * 1000
+            // }
+            // axios.post(url, orderData).then(
+            //     response => {
+            //         if(response.status === 200){
+            //             console.log("submit to manager succeesfully")
+            //         }else{
+            //             console.log("fail to submit to manager ")
+            //         }
+            //     }
+            // ).catch(e => {
+            //     console.log(e)
+            // })
+            const ordersForManagerRef = firebase.database().ref(`ordersForManager/${carparkId}/${plateNumber}` );
+            // const orderData = {
+            //     order: order,
+                
+            // }
+            ordersForManagerRef.push({
                 startedTime: serverTime,
                 endTime: serverTime + 15 * 60 * 1000
-            }
-            axios.post(url, orderData).then(
-                response => {
-                    if(response.status === 200){
-                        console.log("submit to manager succeesfully")
-                    }else{
-                        console.log("fail to submit to manager ")
-                    }
-                }
-            ).catch(e => {
+            }).then(() => {
+                console.log("submit to manager succeesfully")
+            }).catch(e => {
                 console.log(e)
             })
         }).catch(e => {
@@ -137,7 +150,7 @@ class CarparkDetail extends Component {
                             <Text>{name}</Text>
                         </Left>
                         {/* {isBookClick ?  */}
-                        {isOrdered ?
+                        {/* {isOrdered ?
                             <Right>
                                 <Text style={styles.cardHeader_button_text}>AlreadyBooked</Text>
                             </Right>
@@ -150,7 +163,15 @@ class CarparkDetail extends Component {
                                     <Text style={styles.cardHeader_button_text}>Book</Text>
                                 </Button>
                             </Right>
-                        }
+                        } */}
+                        <Right>
+                                <Button
+                                    info rounded bordered style={styles.cardHeader_button}
+                                    onPress={this.toogleOrderSummary}
+                                >
+                                    <Text style={styles.cardHeader_button_text}>Book</Text>
+                                </Button>
+                            </Right>
                     </CardItem>
                     <CardItem cardBody style={styles.cardBody}>
                         <View style={{flex: 1}}>
@@ -205,7 +226,7 @@ class CarparkDetail extends Component {
                                 <Button
                                     info rounded bordered style={styles.cardHeader_button}
                                     onPress={plateNumber ? () => {
-                                                this.submitOrder(order,carparkId,userId,access_token)
+                                                this.submitOrder(order,plateNumber,carparkId,userId,access_token)
                                             }
                                             :   
                                             () => {Alert.alert("Please first record your car plate")}

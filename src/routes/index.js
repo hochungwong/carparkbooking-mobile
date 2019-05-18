@@ -71,7 +71,7 @@ const MainStack = createStackNavigator(
     },
   },
   {
-    mode: 'modal',
+    mode: 'card',
     headerMode: 'none'
   }
 )

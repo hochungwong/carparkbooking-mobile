@@ -86,24 +86,27 @@ class OrderHistory extends Component {
                                         <Text>Order Cancelled</Text>
                                     </Left>
                                     :
-                                    <TimerCountdown
-                                        initialMilliseconds={order.endTime - Number(Date.now()) -  14.5 * 60 * 1000}
-                                        onTick={(milliseconds) => console.log("tick", milliseconds)}
-                                        onExpire={() => {this.cancelOrderInSpecificTime(order.id)}}
-                                        formatMilliseconds={(milliseconds) => {
-                                            const remainingSec = Math.round(milliseconds / 1000);
-                                            const seconds = parseInt((remainingSec % 60).toString(), 10);
-                                            const minutes = parseInt(((remainingSec / 60) % 60).toString(), 10);
-                                            const hours = parseInt((remainingSec / 3600).toString(), 10);
-                                            const s = seconds < 10 ? '0' + seconds : seconds;
-                                            const m = minutes < 10 ? '0' + minutes : minutes;
-                                            let h = hours < 10 ? '0' + hours : hours;
-                                            h = h === '00' ? '' : h + ':';
-                                            return h + m + ':' + s;
-                                        }}
-                                        allowFontScaling={true}
-                                        style={{ fontSize: 20 }}
-                                    />
+                                    <Left>
+                                        <Text>Please arrive within{' '}</Text>
+                                        <TimerCountdown
+                                            initialMilliseconds={order.endTime - Number(Date.now())} //14.5 * 60 * 1000
+                                            onTick={(milliseconds) => console.log("tick", milliseconds)}
+                                            onExpire={() => {this.cancelOrderInSpecificTime(order.id)}}
+                                            formatMilliseconds={(milliseconds) => {
+                                                const remainingSec = Math.round(milliseconds / 1000);
+                                                const seconds = parseInt((remainingSec % 60).toString(), 10);
+                                                const minutes = parseInt(((remainingSec / 60) % 60).toString(), 10);
+                                                const hours = parseInt((remainingSec / 3600).toString(), 10);
+                                                const s = seconds < 10 ? '0' + seconds : seconds;
+                                                const m = minutes < 10 ? '0' + minutes : minutes;
+                                                let h = hours < 10 ? '0' + hours : hours;
+                                                h = h === '00' ? '' : h + ':';
+                                                return h + m + ':' + s;
+                                            }}
+                                            allowFontScaling={true}
+                                            style={{ fontSize: 20 }}
+                                        />
+                                    </Left>
                                 }
                             </CardItem>
                     </Card>
