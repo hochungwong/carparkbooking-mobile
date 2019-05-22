@@ -1,41 +1,50 @@
 import React,{Component} from 'react';
 
 import {StyleSheet,Text,TextInput,View,Button} from 'react-native';
+import {Spinner} from 'native-base';
 import firebase from 'react-native-firebase';
 
 export default class Login extends Component{
     state = {
         email:'',
         password:'',
-        errorMessage:null
+        isLogin: true
     }
 
     handleLogin = () => {
-        const {email,password} = this.state;
-        firebase.auth().signInWithEmailAndPassword(email,password).then(
-            response => {
-                console.log(response)
-                this.props.navigation.navigate('Main')
-            }
-        ).catch(error => this.setState({
-            errorMessage: error.message
-        }));
+        const {email,password ,isLogin} = this.state;
+        // firebase.auth().signInWithEmailAndPassword(email,password).then(
+        //     response => {
+        //         console.log(response)
+        //         this.props.navigation.navigate('Main')
+        //     }
+        // ).catch(error => this.setState({
+        //     errorMessage: error.message
+        // }));
+        this.props.login(email,password, isLogin);
     };
 
-    loginPage = () => {
-        this.props.navigation.navigate('SignUp')
+    signUpPage = () => {
+        const {onSignupLinkPress} = this.props;
+        onSignupLinkPress();
     };
 
     render(){
-        const {email,password,errorMessage} =this.state;
-        return(
+        const {email,password} =this.state;
+        const { error, loading } = this.props;
+        let errorMsg = null;
+        if(error) { 
+            errorMsg = (
+                <Text style={{color:'red'}}>
+                    {error.message}
+                </Text>
+            )
+        }
+        let form = null;
+        form = (
             <View style={styles.container}>
-                <Text>Login</Text>
-                {errorMessage && 
-                    <Text style={{color:'red'}}>
-                        {errorMessage}
-                    </Text>
-                }
+                <Text>Login In</Text>
+                {errorMsg}
                 <TextInput 
                     style={styles.textInput}
                     autoCapitalize = "none"
@@ -52,12 +61,22 @@ export default class Login extends Component{
                     onChangeText={password => this.setState({password})}
                     value={password}
                 />
-                <Button title="Login" onPress={this.handleLogin}/>
-                <Button 
-                    title= "Don't have an account? Sign Up"
-                    onPress= {this.loginPage}
+                <Button title="Log In" onPress={this.handleLogin} />
+                <Button
+                    title="Don't have an account? Sign UP"
+                    onPress={this.signUpPage}
                 />
             </View>
+        )
+        if(loading) {
+            form = (
+                <View style={styles.container}>
+                    <Spinner color={'black'}/>
+                </View>           
+            )
+        }
+        return(
+            form
         )
     }
 }

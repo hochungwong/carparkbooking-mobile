@@ -44,7 +44,7 @@ class OrderDetails extends Component {
         const { isOrderCancelled } = this.state;
         const orderEndTime = order.endTime;
         console.log(orderEndTime);
-        const curretnTime = Number(Date.now()) + 14.5 * 60 * 1000;
+        const curretnTime = Number(Date.now()) ;
         console.log(curretnTime);
         return (
             <ScrollView>

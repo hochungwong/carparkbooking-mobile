@@ -1,34 +1,27 @@
 import React, {Component} from 'react';
-import {Platform, StyleSheet,  View,TouchableOpacity,Dimensions,} from 'react-native';
-import MapView , { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
-import { Container, Header, Title, Content, Button, Icon, Left, Body, Right,Text, Tab, Tabs, TabHeading} from "native-base";
+import {StyleSheet,  View,TouchableOpacity,Dimensions,} from 'react-native';
+import MapView from 'react-native-maps';
+import { Header, Title, Button, Icon, Left, Body, Right,Text } from "native-base";
 
-import CarparkMarker from './CarparkMarkers';
-
-import {inject,observer} from 'mobx-react';
+import CarparkMarkers from './CarparkMarkers';
 
 const { width, height : windowsHeight } = Dimensions.get('window');
 const LATITUDE_DELTA = 0.005;
 const LONGITUDE_DELTA = 0.001;
 
 class CarparkMap extends Component {
-  
   constructor(props){
     super(props);
-    this._userStore = this.props.userStore;
     this.state = {
-      trackedRegion: {},
+      trackedRegion: {}
     }
   }
+
+  componentDidMount() {
+    this._setCoord();
+    this._watchCoord();
+  }
   
-  componentDidMount(){
-    console.log('did mount')
-  }
-
-  componentDidUpdate(){
-    console.log('did update')
-  }
-
   _setCoord = () => {
       navigator.geolocation.getCurrentPosition(
         ({coords}) => {
@@ -77,25 +70,21 @@ class CarparkMap extends Component {
     }
   }
 
-  
-
-  // componentWillUnmount() {
-  //   this._clearCoordWatch();
-  // } 
+  componentWillUnmount() {
+    this._clearCoordWatch();
+  } 
     
   render() {
-    const {isCarparkTab, region} = this._userStore;
-    const {trackedRegion} = this.state;
-    const _region = {
-      latitude: region.latitude,
-      longitude: region.longitude,
-      latitudeDelta: LATITUDE_DELTA,
-      longitudeDelta: LONGITUDE_DELTA
-    }
+    const { trackedRegion } = this.state;
+    const { carparks, orders } = this.props;
+    // const _region = {
+    //   latitude: region.latitude,
+    //   longitude: region.longitude,
+    //   latitudeDelta: LATITUDE_DELTA,
+    //   longitudeDelta: LONGITUDE_DELTA
+    // }
     
-    console.log(_region)
-    console.log(isCarparkTab)
-    console.log(trackedRegion)
+    console.log('region', trackedRegion)
     const varTop = windowsHeight - 125;
     const hitSlop = {
       top: 15,
@@ -133,10 +122,10 @@ class CarparkMap extends Component {
           style={styles.map}
           showsUserLocation={true}
           showsMyLocationButton = {true}
-          region= {_region}
+          region= {trackedRegion}
           showsCompass = {true}
         >
-          <CarparkMarker {...this.props} toggleCarparkTab={this.toggleCarparkTab}/>       
+          <CarparkMarkers {...this.props} />       
         </MapView>        
         <View style={childStyle(varTop)}>
         <TouchableOpacity
@@ -155,7 +144,7 @@ class CarparkMap extends Component {
   }
 }
 
-export default inject('userStore')(observer(CarparkMap)) ;
+export default CarparkMap ;
 
 const styles = StyleSheet.create({
   container: {

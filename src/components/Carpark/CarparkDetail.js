@@ -2,10 +2,10 @@ import React, { Component } from 'react'
 import {Platform, StyleSheet, Text, View, Dimensions,Image,Alert} from 'react-native';
 import { Card, CardItem, Container , Button, Icon , Left, Body, Right} from 'native-base';
 
-import { inject , observer } from 'mobx-react';
-
 import axios from 'axios';
 import firebase from 'react-native-firebase';
+
+import { connect } from 'react-redux';
 
 const { width, height }= Dimensions.get('window');
 
@@ -18,8 +18,6 @@ class CarparkDetail extends Component {
 
     constructor(props){
         super(props);
-        this._authStore = this.props.authStore;
-        this._userStore = this.props.userStore;
         this.state = {
             isBookClick: false,
             plateNumber: '',
@@ -35,7 +33,7 @@ class CarparkDetail extends Component {
     }
 
     
-    submitOrder = (order, plateNumber ,carparkId,userId, token) => {
+    submitOrder = (order, plateNumber ,carparkId,userId) => {
         const sessionsRef = firebase.database().ref("sessions");
         sessionsRef.set({
             startedAt: firebase.database.ServerValue.TIMESTAMP
@@ -46,7 +44,7 @@ class CarparkDetail extends Component {
                 return serverTime;
         }).then(serverTime => {
             //submit to ordersForUsers
-            const url = `https://parking-73057.firebaseio.com/ordersForUsers.json?auth=${token}`;
+            const url = `https://parking-73057.firebaseio.com/ordersForUsers.json`;
             const orderData = {
                 order: order,
                 userId: userId,
@@ -67,6 +65,7 @@ class CarparkDetail extends Component {
             ).catch(e => {
                 console.log(e)
             })
+            const ordersForUsersRef = firebase.database().ref(`ordersForManager/${carparkId}/${plateNumber}` );
             return serverTime;
         }).then(serverTime => {
             //submit for managers
@@ -107,10 +106,11 @@ class CarparkDetail extends Component {
     }  
 
     componentDidMount() {
-        const orders  = JSON.parse(this._userStore.orders);
         const carparkData = this.props.navigation.getParam('carparkData');
+        const orders = this.props.navigation.getParam('orders');
         const { carparkId } = carparkData;
         console.log(orders);
+        //check if the user booked before
         orders && orders.map(order => {
             if (order.carparkId.toString() === carparkId){
                 this.setState({
@@ -124,11 +124,10 @@ class CarparkDetail extends Component {
         const { isBookClick , isOrdered } = this.state;
         const carparkData = this.props.navigation.getParam('carparkData');
         console.log(carparkData);
-        const {userId, access_token} = this._authStore;
-        const { email, plateNumber } = this._userStore;
+        const {userId, access_token, plateNumber} = this.props;
         const {name, address, price, carparkId } = carparkData
         const order = {
-            email: email,
+            carpark: name,
             plateNumber: plateNumber,
         }
         return (
@@ -150,7 +149,7 @@ class CarparkDetail extends Component {
                             <Text>{name}</Text>
                         </Left>
                         {/* {isBookClick ?  */}
-                        {/* {isOrdered ?
+                        {isOrdered ?
                             <Right>
                                 <Text style={styles.cardHeader_button_text}>AlreadyBooked</Text>
                             </Right>
@@ -163,15 +162,7 @@ class CarparkDetail extends Component {
                                     <Text style={styles.cardHeader_button_text}>Book</Text>
                                 </Button>
                             </Right>
-                        } */}
-                        <Right>
-                                <Button
-                                    info rounded bordered style={styles.cardHeader_button}
-                                    onPress={this.toogleOrderSummary}
-                                >
-                                    <Text style={styles.cardHeader_button_text}>Book</Text>
-                                </Button>
-                            </Right>
+                        }
                     </CardItem>
                     <CardItem cardBody style={styles.cardBody}>
                         <View style={{flex: 1}}>
@@ -197,14 +188,14 @@ class CarparkDetail extends Component {
                                 <Text>$ {price} AUD/hr</Text>
                             </Left>
                         </CardItem>
-                        <CardItem bordered style={styles.cardBody}>
+                        {/* <CardItem bordered style={styles.cardBody}>
                             <Left>
                                 <Text>Email:</Text>
                             </Left>
                             <Body>
                                 <Text>{email}</Text>
                             </Body>
-                        </CardItem>
+                        </CardItem> */}
                         <CardItem bordered style={styles.cardBody}>
                             <Left>
                                 <Text>Plate Number: </Text>
@@ -243,7 +234,16 @@ class CarparkDetail extends Component {
     }
 }
 
-export default inject('userStore','authStore')(observer(CarparkDetail)) ;
+const mapStateToProps = state => {
+    const {auth, dashboard}= state
+    return {
+        access_token: auth.token,
+        userId: auth.userId,
+        plateNumber: dashboard.plateNumber
+    }
+}
+
+export default connect(mapStateToProps)(CarparkDetail) ;
 
 const styles = StyleSheet.create({
     info__header__style: {

@@ -2,12 +2,10 @@ import React from 'react';
 
 import { createStackNavigator,createAppContainer, createSwitchNavigator} from 'react-navigation';
 
-import Loading from '../components/Auth/Loading';
-import SignUp from '../components/Auth/Signup';
-import Login from '../components/Auth/Login';
 import Main from '../containers/MainContainer';
 
 import CarparkMap from '../components/MapView/MapView';
+
 import CarparkDetail from '../components/Carpark/CarparkDetail';
 
 import Cam from '../components/CarPlateRecognition/Cam';
@@ -17,21 +15,6 @@ import OrderHistory from '../components/OrderHistory/OrderHistory';
 import UserInfo from '../components/UserInformation/UserInfo';
 
 import OrderDetails from '../components/OrderHistory/OrderDetails';
-
-// const CarparkDetailStack = createStackNavigator(
-//   {
-//     CarparkDetail: {
-//       screen: CarparkDetail,
-//       navigationOptions: () => ({
-//         header: null
-//       })
-//     },
-//   },
-//   {
-//     mode: 'modal',
-//     headerMode: 'none'
-//   }
-// )
 
 const MainStack = createStackNavigator(
   {
@@ -71,7 +54,7 @@ const MainStack = createStackNavigator(
     },
   },
   {
-    mode: 'card',
+    mode: 'modal',
     headerMode: 'none'
   }
 )
@@ -79,23 +62,6 @@ const MainStack = createStackNavigator(
 
 const RootStack = createAppContainer(createSwitchNavigator(
   {
-    Login: {
-      screen: Login,
-      navigationOptions: () => ({
-        gesturesEnabled: false,
-        header: null
-      })
-    },
-    SignUp: {
-      screen: SignUp,
-      navigationOptions: () => ({
-        gesturesEnabled: false,
-        header: null
-      })
-    },
-    Loading: {
-      screen: Loading
-    },
     Main: MainStack,
     OrderDetails: {
       screen: OrderDetails,
@@ -104,9 +70,6 @@ const RootStack = createAppContainer(createSwitchNavigator(
       })
     }
   },
-  {
-    initialRouteName:'Loading'
-  }
   )
 )
 

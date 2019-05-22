@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
-import { Drawer } from 'native-base';
+import { Drawer, Spinner } from 'native-base';
 
 import CarparkMap from './CarparkMap';
 import SideBarList from '../SideBar/SideBarList';
 
-import { inject, observer } from 'mobx-react';
-
-const LATITUDE_DELTA = 0.005;
-const LONGITUDE_DELTA = 0.001;
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+import { firebaseConnect , withFirebase} from 'react-redux-firebase';
 
 class MapView extends Component {
     static navigationOptions = () => {
@@ -15,11 +14,6 @@ class MapView extends Component {
 			header: null,
 		};
     };
-
-    constructor(props){
-        super(props);
-        this._userStore = this.props.userStore;
-    }
 
     closeDrawer = () => {
         this.drawer._root.close();
@@ -30,24 +24,34 @@ class MapView extends Component {
     }
 
     render() {
-        const {region} = this._userStore;
-        const _region = {
-            latitude: region.latitude,
-            longitude: region.longitude,
-            latitudeDelta: LATITUDE_DELTA,
-            longitudeDelta: LONGITUDE_DELTA
-        }
+        const { carparks } = this.props;
+        const orders = this.props.navigation.getParam('orders')
         return (
-            <Drawer
-                side = 'right'
-                ref = {ref => {this.drawer = ref}}
-                content = {<SideBarList {...this.props}/>}
-                onClose = {() => this.closeDrawer()}
-            >   
-                <CarparkMap openDrawer={this.openDrawer} region={_region} {...this.props}/>               
-            </Drawer>
+            carparks !== undefined ? 
+                <Drawer
+                    side = 'right'
+                    ref = {ref => {this.drawer = ref}}
+                    content = {<SideBarList {...this.props}/>}
+                    onClose = {() => this.closeDrawer()}
+                >   
+                    <CarparkMap openDrawer={this.openDrawer} carparks={carparks} orders={orders} {...this.props}/>               
+                </Drawer>
+                :
+                <Spinner color= 'black' />
         )
     }
 }
 
-export default inject('userStore')(observer(MapView)) ;
+const mapStateToProps = state => {
+    return {
+        carparks: state.firebase.data.carparksForUsers
+    }
+}
+
+export default compose(
+    connect(mapStateToProps),
+    withFirebase,
+    firebaseConnect([
+        '/carparksForUsers'
+    ])
+)(MapView)

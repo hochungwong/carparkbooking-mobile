@@ -18,7 +18,11 @@
     "react-native-maps": "^0.24.2",
     "react-native-openalpr": "git://github.com/RobertSasak/react-native-openalpr.git#master",
     "react-native-timer-countdown": "^4.1.0",
-    "react-navigation": "^3.6.1"
+    "react-navigation": "^3.6.1",
+    "react-redux": "^5.0.6",
+    "react-redux-firebase": "^2.2.6",
+    "redux": "^4.0.1",
+    "redux-thunk": "^2.3.0"
   },
   "devDependencies": {
     "babel-jest": "24.7.1",

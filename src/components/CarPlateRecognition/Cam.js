@@ -11,6 +11,9 @@ import Camera from 'react-native-openalpr';
 import { inject, observer } from 'mobx-react';
 import firebase from 'react-native-firebase';
 
+import { connect } from 'react-redux';
+import * as actions from '../../stores/actions/index';
+
 const { width, height } = Dimensions.get('window');
 
 //Cam recognition
@@ -18,8 +21,6 @@ class Cam extends Component {
     constructor(props) {
     super(props);
     this.camera = null;
-    this._authStore = this.props.authStore;
-    this._userStore = this.props.userStore;
     this.state = {
       camera: {
         aspect: Camera.constants.Aspect.fill,
@@ -42,19 +43,10 @@ class Cam extends Component {
     }
   }
 
-  postCarplate = plate => {
-      const {userId} = this._authStore;
-      const { setPlateNumber } = this._userStore;
-      firebase.database().ref(`/carplates/${userId}`).set({
-        plate,
-        userId
-      }).then(
-        () => setPlateNumber(plate) 
-      ).then(
-        () => this.props.navigation.navigate('Main')
-      ).catch(e => {
-        console.log(e)
-      })
+  postCarplate = async plate => {
+      const {userId ,onSubmitCarPlate} = this.props;
+      await onSubmitCarPlate(userId, plate);
+      await this.props.navigation.navigate('Main');
   }
 
   render() {
@@ -127,7 +119,19 @@ class Cam extends Component {
   }
 }
 
-export default inject('authStore','userStore')(observer(Cam)) ;
+const mapStateToProps = state => {
+  return {
+    userId: state.auth.userId,
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onSubmitCarPlate: (userId, plate) => dispatch(actions.submitCarPlate(userId, plate))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Cam) ;
 
 const styles = StyleSheet.create({
   container: {

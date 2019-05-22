@@ -1,18 +1,42 @@
-import React , {Component}  from 'react';
-import AppContainer from './routes/index';
+import React, { Component } from 'react';
 
-import {Provider} from 'mobx-react';
-import stores from './stores/stores';
+import AuthScreen from './containers/AuthContainer';
+import MainScreen from './routes/index';
 
-class App extends Component {
+import { connect } from 'react-redux';
+import * as actions from './stores/actions/index';
+
+class App extends Component{
+    componentDidMount(){
+        this.props.onCheckAuthState();
+    }
+    
     render(){
-        return (
-            <Provider {...stores}>
-                <AppContainer />
-            </Provider>
-            
+        const { isAuthenticated } = this.props;
+        let route = (
+            <AuthScreen />
+        );
+        if(isAuthenticated){
+            route = (
+                <MainScreen />
+            )
+        }
+        return(
+            route
         )
     }
 }
 
-export default App;
+const mapStateToProps = state => {
+    return {
+        isAuthenticated: state.auth.token !== null
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        onCheckAuthState: () => dispatch(actions.authStateCheck()),
+    };
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(App) ;

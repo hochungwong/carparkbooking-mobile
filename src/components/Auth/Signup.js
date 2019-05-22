@@ -1,58 +1,69 @@
 import React from 'react';
 
 import { StyleSheet, Text, TextInput, View, Button } from 'react-native';
-import firebase from 'react-native-firebase';
+import { Spinner } from 'native-base';
 
 export default class SignUp extends React.Component {
-    state = { email: '', password: '', errorMessage: null }
+    state = { email: '', password: '', isLogin: false}
   
     handleSignUp = () => {
-      const { email, password } = this.state
-      firebase.auth().createUserWithEmailAndPassword(email, password).then(
-        response => {
-          console.log(response);
-        }
-      ).then(() => 
-        this.props.navigation.navigate('Main')
-      ).catch(error => this.setState({ 
-          errorMessage: error.message 
-      }))
+      const { email, password, isLogin} = this.state;
+      this.props.signUp(email,password,isLogin);
     }
     
-    signUpPage = () => {
-        this.props.navigation.navigate('Login');
+    loginPage = () => {
+        const { onLoginLinkPress } = this.props;
+        onLoginLinkPress();
     };
 
     render() {
-      const {email,password,errorMessage} = this.state;
-      return (
-        <View style={styles.container}>
-          <Text>Sign Up</Text>
-          {errorMessage &&
-            <Text style={{ color: 'red' }}>
-              {errorMessage}
-            </Text>}
-          <TextInput
-            placeholder="Email"
-            autoCapitalize="none"
-            style={styles.textInput}
-            onChangeText={email => this.setState({ email })}
-            value={email}
-          />
-          <TextInput
-            secureTextEntry
-            placeholder="Password"
-            autoCapitalize="none"
-            style={styles.textInput}
-            onChangeText={password => this.setState({ password })}
-            value={password}
-          />
-          <Button title="Sign Up" onPress={this.handleSignUp} />
-          <Button
-            title="Already have an account? Login"
-            onPress={this.signUpPage}
-          />
-        </View>
+      const {email,password} =this.state;
+      const { error, loading } = this.props;
+      let errorMsg = null;
+      if(error) { 
+          errorMsg = (
+              <Text style={{color:'red'}}>
+                  {error.message}
+              </Text>
+          )
+      }
+      let form = null;
+      form = (
+          <View style={styles.container}>
+              <Text>Sign Up</Text>
+              {errorMsg}
+              <TextInput 
+                  style={styles.textInput}
+                  autoCapitalize = "none"
+                  textContentType = 'emailAddress'
+                  placeholder ="Email"
+                  onChangeText={email => this.setState({email})}
+                  value={email}
+              />
+              <TextInput
+                  style={styles.textInput}
+                  secureTextEntry
+                  autoCapitalize = "none"
+                  placeholder ="Password"
+                  onChangeText={password => this.setState({password})}
+                  value={password}
+              />
+              <Button title="Sign Up" onPress={this.handleSignUp} />
+              <Button
+                title="Already have an account? Log In"
+                onPress={this.loginPage}
+              />
+          </View>
+      )
+      if(loading) {
+          form = (
+              <View style={styles.container}>
+                  <Spinner color={'black'}/>
+              </View>           
+          )
+      }
+      return(
+          form
       )
     }
   }

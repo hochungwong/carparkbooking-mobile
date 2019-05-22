@@ -106,8 +106,17 @@ class OrderHistory extends Component {
                                             allowFontScaling={true}
                                             style={{ fontSize: 20 }}
                                         />
-                                    </Left>
+                                        <Body>
+                                            <Button
+                                                info rounded bordered style={styles.cardHeader_button}
+                                                onPress={this.toogleOrderSummary}
+                                            >
+                                                <Text style={styles.cardHeader_button_text}>Cancel</Text>
+                                            </Button>
+                                        </Body>
+                                    </Left> 
                                 }
+
                             </CardItem>
                     </Card>
                     

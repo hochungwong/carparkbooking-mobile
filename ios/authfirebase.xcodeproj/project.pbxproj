@@ -431,6 +431,7 @@
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
 		9007B744225ECE920045E87C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		90099E4A22940BEA005B09C0 /* authfirebase.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = authfirebase.entitlements; path = authfirebase/authfirebase.entitlements; sourceTree = "<group>"; };
 		9083D7D52281CD6300E831E7 /* openalpr.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = openalpr.framework; sourceTree = "<group>"; };
 		9083D7D62281CD6300E831E7 /* tesseract.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = tesseract.framework; sourceTree = "<group>"; };
 		9083D7D72281CD6300E831E7 /* leptonica.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = leptonica.framework; sourceTree = "<group>"; };
@@ -613,6 +614,7 @@
 		13B07FAE1A68108700A75B9A /* authfirebase */ = {
 			isa = PBXGroup;
 			children = (
+				90099E4A22940BEA005B09C0 /* authfirebase.entitlements */,
 				9007B744225ECE920045E87C /* GoogleService-Info.plist */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
@@ -938,6 +940,14 @@
 					};
 					13B07F861A680F5B00A75B9A = {
 						DevelopmentTeam = FU2CF2UCN3;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 0;
+							};
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
 					};
 					2D02E47A1E0B4A5D006451C7 = {
 						CreatedOnToolsVersion = 8.2.1;

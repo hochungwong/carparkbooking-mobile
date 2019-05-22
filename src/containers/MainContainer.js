@@ -1,57 +1,67 @@
 import React, { Component } from 'react'
 
-import { AsyncStorage ,ActivityIndicator, View, StyleSheet, Text} from 'react-native';
+import { ActivityIndicator, View, StyleSheet, Text} from 'react-native';
 
 import Dashboard from '../components/Dashboard/Main';
 
-import { inject, observer } from 'mobx-react';
+import * as actions from '../stores/actions/index';
+
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+import { firebaseConnect } from 'react-redux-firebase';
 
 class MainContainer extends Component {
 
     componentDidMount() {
-        const {userStore, authStore} = this.props;
-        const {userId } = authStore;
-        const {fetchOrders, fetchCarplate } = userStore;
-        
-        this.intervalId = setInterval(
-            () => {
-                AsyncStorage.getItem("access_token").then(
-                    access_token => {
-                        // console.log(access_token);
-                        fetchOrders(userId, access_token);
-                    }
-                )
-            },2000);
-        fetchCarplate(userId);
-    }
-
-    componentWillUnmount(){
-        clearInterval(this.intervalId);
-        this.intervalId = null;
+        const {userId, onFetchPlateNumber} = this.props;
+        console.log(userId)
+        onFetchPlateNumber(userId);      
     }
 
     render() {
-        const { userStore, authStore } = this.props;
-        const { access_token } = authStore;
-        const { orders ,plateNumber } = userStore;
-        const _orders = JSON.parse(orders);
+        const { 
+            plateNumber , orders, loading ,onLogout
+        } = this.props;
+        console.log(orders)
+        console.log(plateNumber)
         return (
-            access_token === null ? 
+            loading ? 
             <View style={styles.container}>
                 <Text>Loading</Text>
                 <ActivityIndicator size="large" />
             </View>
             :
             <Dashboard
-                orders={_orders} 
+                orders={orders} 
                 plateNumber ={plateNumber}
+                logout = {onLogout}
                 {...this.props}
             />
         )
     }
 }
 
-export default inject('authStore', 'userStore')(observer(MainContainer));
+const mapStateToProps = state => {
+    return {
+        userId: state.auth.userId,
+        plateNumber: state.dashboard.plateNumber,
+        loading: state.dashboard.loading,
+        orders: state.firebase.data.ordersForManager
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        onFetchPlateNumber: userId => dispatch(actions.fetchPlateNumber(userId)),
+        onLogout: () => dispatch(actions.logout())
+    }
+}
+export default compose(
+    connect(mapStateToProps, mapDispatchToProps),
+    firebaseConnect([
+        '/ordersForManager'
+    ])
+)(MainContainer);
 
 const styles = StyleSheet.create({
     container: {

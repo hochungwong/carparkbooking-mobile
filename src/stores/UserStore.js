@@ -15,7 +15,6 @@ export default class UserStore {
         latitudeDelta: LATITUDE_DELTA,
         longtiudeDelta: LONGITUDE_DELTA
     };
-    isCarparkTab = false;
     currentAddress = "";
     avatar = require('../components/assets/logo/carpark.png');
     email = "";
@@ -24,27 +23,37 @@ export default class UserStore {
     orders = null;
 
     //fetch orders
-    fetchOrders = (userId, token) => { 
-        const queryParams = '?auth=' + token + '&orderBy="userId"&equalTo="' + userId + '"';
-        const url = (`https://parking-73057.firebaseio.com/ordersForUsers.json` + queryParams);
-        axios.get(url).then(
-            response => {
-                if(response.status === 200) {
-                    const fetchedData = [];
-                    for ( let key in response.data ) {
-                        fetchedData.push( {
-                            ...response.data[key],
-                            id: key
-                        } );
-                    }
-                    this.setOrders(JSON.stringify(fetchedData));
-                }else{
-                    console.log('Fetch Failed');
-                }
+    fetchOrders = (carparkId, plate) => { 
+        // const queryParams = '?orderBy="userId"&equalTo="' + userId + '"';
+        // const url = (`https://parking-73057.firebaseio.com/ordersForUsers.json` + queryParams);
+        // axios.get(url).then(
+        //     response => {
+        //         if(response.status === 200) {
+        //             const fetchedData = [];
+        //             for ( let key in response.data ) {
+        //                 fetchedData.push( {
+        //                     ...response.data[key],
+        //                     id: key
+        //                 } );
+        //             }
+        //             this.setOrders(JSON.stringify(fetchedData));
+        //         }else{
+        //             console.log('Fetch Failed');
+        //         }
+        //     }
+        // ).catch(e => {
+        //     console.log(e)
+        // })
+        const database = firebase.database();
+        const ordersForManagersRef = database.ref(`/ordersForManager/${carparkId}${plate}`);
+        ordersForManagersRef.once('value').then(
+            snapshot => {
+                const orders = snapshot.val() ;
+                const ordersData = [];
+                ordersData.push(orders)
+                this.setOrders(JSON.stringify(ordersData));
             }
-        ).catch(e => {
-            console.log(e)
-        })
+        ).catch(e => console.log(e))
     }
 
     //fetch place number
@@ -58,7 +67,7 @@ export default class UserStore {
           }).catch(e => [
             console.log(e)
           ])
-      }
+    }
 
     setRegion = newRegion => Object.assign(this.region, newRegion)
 
