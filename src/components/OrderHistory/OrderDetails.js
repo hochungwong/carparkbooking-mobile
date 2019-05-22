@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
 
-import {Platform, StyleSheet, Text,View,TouchableOpacity,Dimensions,Image,Alert,ScrollView} from 'react-native';
-import { Card, CardItem, Content, Container , Button, Icon , Left, Body, Right} from 'native-base';
+import {Platform, StyleSheet, Text,View, Dimensions,ScrollView} from 'react-native';
+import { Card, CardItem, Button, Icon , Left, Body, Right} from 'native-base';
+
+import { showLocation } from 'react-native-map-link';
 
 import firebase from 'react-native-firebase';
 
@@ -39,8 +41,15 @@ class OrderDetails extends Component {
         this.props.navigation.navigate('Main');
     }
     
+    
     render() {
         const order  = this.props.navigation.getParam('order');
+        const coordinate = this.props.navigation.getParam('coordinate');
+        const _showLoaction = showLocation({
+            latitude: coordinate.latitude,
+            longitude: coordinate.longitude
+        })
+        console.log(coordinate)
         const { isOrderCancelled } = this.state;
         const orderEndTime = order.endTime;
         console.log(orderEndTime);
@@ -66,14 +75,6 @@ class OrderDetails extends Component {
                             </Left>
                             <Body>
                                 <Text>{order.id}</Text>
-                            </Body>
-                        </CardItem>
-                        <CardItem bordered style={styles.cardBody}>
-                            <Left>
-                                <Text>Email:</Text>
-                            </Left>
-                            <Body>
-                                <Text>{order.order.email}</Text>
                             </Body>
                         </CardItem>
                         <CardItem bordered style={styles.cardBody}>
@@ -113,11 +114,16 @@ class OrderDetails extends Component {
                                         allowFontScaling={true}
                                         style={{ fontSize: 20 }}
                                     />
+                                    <Body>
+                                        <Text onPress={this.backToMain}>Back to Main</Text>
+                                    </Body>
+                                    <Right>
+                                        <Text onPress={showLocation}>Navigate to carpark</Text>
+                                    </Right>
                                 </Left>
+                                
                             }
-                            <Right>
-                                <Text onPress={this.backToMain}>Back to Main</Text>
-                            </Right>
+                            
                         </CardItem>
                     </Card>
         </ScrollView>

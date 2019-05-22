@@ -33,7 +33,7 @@ class CarparkDetail extends Component {
     }
 
     
-    submitOrder = (order, plateNumber ,carparkId,userId) => {
+    submitOrder = (order, plateNumber ,carparkId,userId, latitude,longitude) => {
         const sessionsRef = firebase.database().ref("sessions");
         sessionsRef.set({
             startedAt: firebase.database.ServerValue.TIMESTAMP
@@ -53,11 +53,15 @@ class CarparkDetail extends Component {
                 endTime: serverTime + 15 * 60 * 1000 
             }
             console.log(orderData)
+            const coordinate = {
+                latitude,
+                longitude
+            }
             axios.post(url, orderData).then(
                 response => {
                     // console.log(response.data)
                     if(response.status === 200) {
-                        this.props.navigation.navigate('OrderDetails', {order:  orderData});
+                        this.props.navigation.navigate('OrderDetails', {order:  orderData, coordinate: coordinate});
                     }else{
                         Alert.alert("Order Submission","Fail, please try again");
                     }           
@@ -111,7 +115,7 @@ class CarparkDetail extends Component {
         const { carparkId } = carparkData;
         console.log(orders);
         //check if the user booked before
-        orders && orders.map(order => {
+        orders !== null && orders.map(order => {
             if (order.carparkId.toString() === carparkId){
                 this.setState({
                     isOrdered: true
@@ -125,7 +129,10 @@ class CarparkDetail extends Component {
         const carparkData = this.props.navigation.getParam('carparkData');
         console.log(carparkData);
         const {userId, access_token, plateNumber} = this.props;
-        const {name, address, price, carparkId } = carparkData
+        const {name, address, price, carparkId ,coordinate} = carparkData
+        const latitude = coordinate['latitude'];
+        const longitude = coordinate['longitude'];
+        console.log(latitude, longitude)
         const order = {
             carpark: name,
             plateNumber: plateNumber,
@@ -217,7 +224,7 @@ class CarparkDetail extends Component {
                                 <Button
                                     info rounded bordered style={styles.cardHeader_button}
                                     onPress={plateNumber ? () => {
-                                                this.submitOrder(order,plateNumber,carparkId,userId,access_token)
+                                                this.submitOrder(order,plateNumber,carparkId,userId,latitude, longitude)
                                             }
                                             :   
                                             () => {Alert.alert("Please first record your car plate")}

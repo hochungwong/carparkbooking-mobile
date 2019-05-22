@@ -53,7 +53,7 @@ class OrderHistory extends Component {
 						</Button>
 					</View>
 				</View>
-            {orders.length !== 0?
+            {orders !== null && orders.length !== 0 ?
                 orders.map(order => (
                     <Card key={order.id}>
                         <CardItem style={styles.cardHeader} header bordered>
@@ -64,14 +64,14 @@ class OrderHistory extends Component {
                                 <Text>{order.id}</Text>
                             </Body>
                         </CardItem>
-                        <CardItem bordered style={styles.cardBody}>
+                        {/* <CardItem bordered style={styles.cardBody}>
                                 <Left>
                                     <Text>Email:</Text>
                                 </Left>
                                 <Body>
                                     <Text>{order.order.email}</Text>
                                 </Body>
-                            </CardItem>
+                            </CardItem> */}
                             <CardItem bordered style={styles.cardBody}>
                                 <Left>
                                     <Text>Plate Number: </Text>

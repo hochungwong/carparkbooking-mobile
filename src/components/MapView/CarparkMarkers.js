@@ -2,6 +2,9 @@ import React , {Component} from 'react';
 import { View , Text } from 'react-native';
 import { Marker } from 'react-native-maps'; 
 
+import {connect} from 'react-redux';
+import { compose } from 'redux';
+import { firebaseConnect } from 'react-redux-firebase';
 import axios from 'axios';
 
 class CarparkMarkers extends Component{
@@ -60,7 +63,8 @@ class CarparkMarkers extends Component{
     }
 
     render(){
-        const { orders } = this.props;
+        const { orders ,currentTotalNumber} = this.props;
+        console.log(currentTotalNumber)
         const {coordinateData,carparksData} = this.state;
         let tempArr = [];
         for (let key in coordinateData){
@@ -95,24 +99,35 @@ class CarparkMarkers extends Component{
     }
 }
 
-export default CarparkMarkers ;
-
-
-const fetchSpot = () => {
-    return new Promise((resolve,reject) => {
-        axios.get('https://parking-73057.firebaseio.com/carparksForUsers.json').then(
-            response => {
-            const fetchedData = [];
-            for(let key in response.data){
-                fetchedData.push( {
-                    ...response.data[key],
-                    id: key
-                });
-            }
-                resolve(fetchedData);
-            }   
-        ).catch(error => {
-            reject(new Error(error))
-            })
-        })
+const mapDispatchToProps = state => {
+    return {
+        currentTotalNumber: state.firebase.data.latestTotalNumber 
     }
+}
+
+export default  compose(
+    connect(mapDispatchToProps),
+    firebaseConnect([
+        '/latestTotalNumber'
+    ])
+) (CarparkMarkers) ;
+
+
+// const fetchSpot = () => {
+//     return new Promise((resolve,reject) => {
+//         axios.get('https://parking-73057.firebaseio.com/carparksForUsers.json').then(
+//             response => {
+//             const fetchedData = [];
+//             for(let key in response.data){
+//                 fetchedData.push( {
+//                     ...response.data[key],
+//                     id: key
+//                 });
+//             }
+//                 resolve(fetchedData);
+//             }   
+//         ).catch(error => {
+//             reject(new Error(error))
+//             })
+//         })
+//     }
