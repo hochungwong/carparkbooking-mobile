@@ -36,9 +36,28 @@ class OrderHistory extends Component {
         })
     }  
 
+    jumpToDetail = () => {
+        this.props.navigation.navigate('OrderDetails');
+    }
 
     render() {
         const orders = this.props.navigation.getParam('orders');
+        // const ordersData = [];
+        // for(let key in orders) {
+        //    console.log(key)
+        //    console.log(orders[key])
+        //    const timeData = Object.values(orders[key])[0];
+        //    const plate = Object.keys(orders[key])[0]
+        //    console.log(timeData)
+        //    // user id
+        //    for(let k in timeData){
+        //         ordersData.push({
+        //             plate: plate,
+        //             ...timeData[k]
+        //         })
+        //         console.log(timeData[k])
+        //    } 
+        // }
         const { isOrderCancelled } = this.state;
         return (
             <ScrollView>
@@ -77,7 +96,7 @@ class OrderHistory extends Component {
                                     <Text>Plate Number: </Text>
                                 </Left>
                                 <Body>
-                                    <Text>{order.order.plateNumber}</Text>
+                                    <Text>{order.plate}</Text>
                                 </Body>
                             </CardItem>
                             <CardItem footer >
@@ -114,6 +133,14 @@ class OrderHistory extends Component {
                                                 <Text style={styles.cardHeader_button_text}>Cancel</Text>
                                             </Button>
                                         </Body>
+                                        {/* <Right>
+                                            <Button
+                                                info rounded bordered style={styles.cardHeader_button}
+                                                onPress={this.jumpToDetail}
+                                            >
+                                                <Text style={styles.cardHeader_button_text}>Detial ></Text>
+                                            </Button>
+                                        </Right> */}
                                     </Left> 
                                 }
 

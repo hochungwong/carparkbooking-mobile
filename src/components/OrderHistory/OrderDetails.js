@@ -45,7 +45,7 @@ class OrderDetails extends Component {
     render() {
         const order  = this.props.navigation.getParam('order');
         const coordinate = this.props.navigation.getParam('coordinate');
-        const _showLoaction = showLocation({
+        const _showLocation = showLocation({
             latitude: coordinate.latitude,
             longitude: coordinate.longitude
         })

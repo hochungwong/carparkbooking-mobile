@@ -79,11 +79,6 @@ class Main extends React.Component{
     }
 
     componentDidMount(){
-        const { currentUser } = firebase.auth();
-        console.log(currentUser)
-        this.setState({
-            currentUser:currentUser
-        });
         this._setCoord();
         this._watchCoord();
     }
@@ -110,9 +105,8 @@ class Main extends React.Component{
 
     render(){
         const {currentUser , currentAddress, region} = this.state;
-        const { orders, plateNumber } = this.props;
-        const email = currentUser && currentUser.email;
-        console.log(orders);
+        const { ordersData, plateNumber } = this.props;
+        console.log(ordersData);
         return(
             <Container>
               <Header >
@@ -129,7 +123,7 @@ class Main extends React.Component{
                       <Text note numberOfLines={2}>Your are at: {currentAddress ? currentAddress : "Loding address..."}</Text>
                     </Body>
                     <Right>
-                      <Button onPress={() => {this.jumpToMap(region, orders)}} transparent>
+                      <Button onPress={() => {this.jumpToMap(region, ordersData)}} transparent>
                         <Text>Go</Text>
                       </Button>
                     </Right>
@@ -148,7 +142,7 @@ class Main extends React.Component{
                       </Button>
                     </Right>
                   </ListItem>
-                  <ListItem thumbnail>
+                  {/* <ListItem thumbnail>
                     <Left>
                       <Thumbnail square source={require('../assets/logo/info.png')} resizeMode='contain'/>
                     </Left>
@@ -161,24 +155,24 @@ class Main extends React.Component{
                         <Text >View</Text>
                       </Button>
                     </Right>
-                  </ListItem>    
+                  </ListItem>     */}
                   <ListItem thumbnail>
                     <Left>
                       <Thumbnail square source={require('../assets/logo/history.png')} resizeMode='contain'/>
                     </Left>
                     <Body>
                       <Text>Order History</Text>
-                      <Text note numberOfLines={1}>Most recent order: 8/5/2019</Text>
+                      <Text note numberOfLines={1}>Track Order History</Text>
                     </Body>
-                    {orders === null? 
+                    {ordersData.length === 0 ? 
                       <Right>
                         <Button disabled transparent>
-                          <Text >Loading</Text>
+                          <Text >No orders</Text>
                         </Button>
                       </Right>
                       :
                       <Right>
-                        <Button onPress={() => {this.jumpToHistory(orders)}} transparent>
+                        <Button onPress={() => {this.jumpToHistory(ordersData)}} transparent>
                           <Text >View</Text>
                         </Button>
                       </Right>

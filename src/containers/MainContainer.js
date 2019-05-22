@@ -22,7 +22,24 @@ class MainContainer extends Component {
         const { 
             plateNumber , orders, loading ,onLogout
         } = this.props;
-        console.log(orders)
+        const ordersData = [];
+        for(let key in orders) {
+           console.log(key)
+           console.log(orders[key])
+           const timeData = Object.values(orders[key])[0];
+           const plate = Object.keys(orders[key])[0]
+           console.log(timeData)
+           // user id
+           for(let k in timeData){
+                ordersData.push({
+                    plate: plate,
+                    carparkId: key,
+                    ...timeData[k]
+                })
+                console.log(timeData[k])
+           } 
+        }
+        console.log(ordersData)
         console.log(plateNumber)
         return (
             loading ? 
@@ -32,7 +49,7 @@ class MainContainer extends Component {
             </View>
             :
             <Dashboard
-                orders={orders} 
+                ordersData={ordersData} 
                 plateNumber ={plateNumber}
                 logout = {onLogout}
                 {...this.props}

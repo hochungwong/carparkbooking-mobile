@@ -98,7 +98,8 @@ class CarparkDetail extends Component {
             // }
             ordersForManagerRef.push({
                 startedTime: serverTime,
-                endTime: serverTime + 15 * 60 * 1000
+                endTime: serverTime + 15 * 60 * 1000,
+                userId: userId
             }).then(() => {
                 console.log("submit to manager succeesfully")
             }).catch(e => {
