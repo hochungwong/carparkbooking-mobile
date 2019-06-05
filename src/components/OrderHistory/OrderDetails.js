@@ -118,7 +118,14 @@ class OrderDetails extends Component {
                                         <Text onPress={this.backToMain}>Back to Main</Text>
                                     </Body>
                                     <Right>
-                                        <Text onPress={showLocation}>Navigate to carpark</Text>
+                                        <Text onPress={() => {
+                                            showLocation({
+                                                latitude: coordinate.latitude,
+                                                longitude: coordinate.longitude
+                                            })
+                                        }}>
+                                            Navigation
+                                        </Text>
                                     </Right>
                                 </Left>
                                 
