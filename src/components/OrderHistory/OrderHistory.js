@@ -91,7 +91,6 @@ class OrderHistory extends Component {
                                         <Text>Please arrive within{' '}</Text>
                                         <TimerCountdown
                                             initialMilliseconds={order.endTime - Number(Date.now())} //14.5 * 60 * 1000
-                                            onTick={(milliseconds) => console.log("tick", milliseconds)}
                                             onExpire={() => {this.cancelOrderInSpecificTime(order.id)}}
                                             formatMilliseconds={(milliseconds) => {
                                                 const remainingSec = Math.round(milliseconds / 1000);

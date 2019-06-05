@@ -20,7 +20,6 @@ class CarparkMarkers extends Component{
 
     componentDidMount() {
         const { carparks } = this.props;
-        console.log(carparks)
         const carparksData = [];
         for(let key in carparks){
             carparksData.push( {
@@ -28,7 +27,6 @@ class CarparkMarkers extends Component{
                 id: key
             });
         }
-        console.log(carparksData) ;
         this.setState({
             carparksData: carparksData
         })
@@ -64,7 +62,6 @@ class CarparkMarkers extends Component{
 
     render(){
         const { orders ,currentTotalNumber} = this.props;
-        console.log(currentTotalNumber)
         const {coordinateData,carparksData} = this.state;
         let tempArr = [];
         for (let key in coordinateData){
@@ -80,7 +77,6 @@ class CarparkMarkers extends Component{
                 carparkId: k
             })
         }
-        console.log(tempArr);
         return (
             tempArr.map((i,key) => (
                 <Marker

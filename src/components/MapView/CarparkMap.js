@@ -75,16 +75,7 @@ class CarparkMap extends Component {
   } 
     
   render() {
-    const { trackedRegion } = this.state;
-    const { carparks, orders } = this.props;
-    // const _region = {
-    //   latitude: region.latitude,
-    //   longitude: region.longitude,
-    //   latitudeDelta: LATITUDE_DELTA,
-    //   longitudeDelta: LONGITUDE_DELTA
-    // }
-    
-    console.log('region', trackedRegion)
+    const { trackedRegion } = this.state;   
     const varTop = windowsHeight - 125;
     const hitSlop = {
       top: 15,

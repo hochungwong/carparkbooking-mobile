@@ -43,10 +43,6 @@ class MainContainer extends Component {
                 console.log("no specific orders")
             }
         })
-        console.log(orders)
-        console.log(ordersData)
-        console.log('user\'s orders',ordersDataForUsers)
-        console.log(plateNumber)
         return (
             // loading ? 
             // <View style={styles.container}>

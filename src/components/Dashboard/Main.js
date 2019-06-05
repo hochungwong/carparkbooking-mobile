@@ -105,8 +105,7 @@ class Main extends React.Component{
 
     render(){
         const {currentUser , currentAddress, region} = this.state;
-        const { ordersData, plateNumber, userId, loading} = this.props;
-        console.log(ordersData);
+        const { ordersData, plateNumber, userId } = this.props;
         return(
             <Container>
               <Header >

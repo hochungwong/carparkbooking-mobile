@@ -52,14 +52,12 @@ class CarparkDetail extends Component {
                 startedTime: serverTime,
                 endTime: serverTime + 15 * 60 * 1000 
             }
-            console.log(orderData)
             const coordinate = {
                 latitude,
                 longitude
             }
             axios.post(url, orderData).then(
                 response => {
-                    // console.log(response.data)
                     if(response.status === 200) {
                         this.props.navigation.navigate('OrderDetails', {order:  orderData, coordinate: coordinate});
                     }else{
@@ -69,33 +67,9 @@ class CarparkDetail extends Component {
             ).catch(e => {
                 console.log(e)
             })
-            const ordersForUsersRef = firebase.database().ref(`ordersForManager/${carparkId}/${plateNumber}` );
             return serverTime;
         }).then(serverTime => {
-            //submit for managers
-            // const url = `https://parking-73057.firebaseio.com/ordersForManager.json`;
-            // const orderData = {
-            //     order: order,
-            //     carparkId: carparkId,
-            //     startedTime: serverTime,
-            //     endTime: serverTime + 15 * 60 * 1000
-            // }
-            // axios.post(url, orderData).then(
-            //     response => {
-            //         if(response.status === 200){
-            //             console.log("submit to manager succeesfully")
-            //         }else{
-            //             console.log("fail to submit to manager ")
-            //         }
-            //     }
-            // ).catch(e => {
-            //     console.log(e)
-            // })
             const ordersForManagerRef = firebase.database().ref(`ordersForManager/${carparkId}/${plateNumber}` );
-            // const orderData = {
-            //     order: order,
-                
-            // }
             ordersForManagerRef.push({
                 startedTime: serverTime,
                 endTime: serverTime + 15 * 60 * 1000,
@@ -114,7 +88,6 @@ class CarparkDetail extends Component {
         const carparkData = this.props.navigation.getParam('carparkData');
         const orders = this.props.navigation.getParam('orders');
         const { carparkId } = carparkData;
-        console.log(orders);
         //check if the user booked before
         orders !== null && orders.map(order => {
             if (order.carparkId.toString() === carparkId){
@@ -128,12 +101,10 @@ class CarparkDetail extends Component {
     render() {
         const { isBookClick , isOrdered } = this.state;
         const carparkData = this.props.navigation.getParam('carparkData');
-        console.log(carparkData);
-        const {userId, access_token, plateNumber} = this.props;
+        const {userId, plateNumber} = this.props;
         const {name, address, price, carparkId ,coordinate} = carparkData
         const latitude = coordinate['latitude'];
         const longitude = coordinate['longitude'];
-        console.log(latitude, longitude)
         const order = {
             carpark: name,
             plateNumber: plateNumber,

@@ -47,14 +47,12 @@ export const auth = (email, password, isLogin) => {
         }
         axios.post(authUrl, authData).then(
             response => {
-                console.log(response.data)
                 const {idToken, localId} = response.data;
                 AsyncStorage.setItem('token', idToken);
                 AsyncStorage.setItem('userId', localId);
                 dispatch(authSuccess(idToken, localId));   
             }
         ).catch(e => {
-            console.log(e.response.data.error);
             dispatch(authFail(e.response.data.error));
         })
     }

@@ -45,16 +45,9 @@ class OrderDetails extends Component {
     render() {
         const order  = this.props.navigation.getParam('order');
         const coordinate = this.props.navigation.getParam('coordinate');
-        const _showLocation = showLocation({
-            latitude: coordinate.latitude,
-            longitude: coordinate.longitude
-        })
-        console.log(coordinate)
         const { isOrderCancelled } = this.state;
         const orderEndTime = order.endTime;
-        console.log(orderEndTime);
         const curretnTime = Number(Date.now()) ;
-        console.log(curretnTime);
         return (
             <ScrollView>
                 <View style={styles.info__header__style}>
@@ -98,7 +91,6 @@ class OrderDetails extends Component {
                                     <Text>Please arrive within{' '}</Text>
                                     <TimerCountdown
                                         initialMilliseconds={orderEndTime - curretnTime}
-                                        onTick={(milliseconds) => console.log("tick", milliseconds)}
                                         onExpire={() => {this.cancelOrderInSpecificTime(order.id)}}
                                         formatMilliseconds={(milliseconds) => {
                                             const remainingSec = Math.round(milliseconds / 1000);

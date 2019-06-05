@@ -33,7 +33,6 @@ export const fetchPlateNumber = userId => {
               dispatch(fetchPlateNumberSuccess(plate));
             }
           }).catch(e => {
-            console.log(e)
             dispatch(fetchPlateNumberFailed(e))
         })
     }
@@ -68,7 +67,6 @@ export const submitCarPlate = (userId, plate) => {
           }).then(
             () => dispatch(submitCarPlateSuccess(plate))
           ).catch(e => {
-            console.log(e)
             dispatch(submitCarPlateFailed(e))
           })
     }
