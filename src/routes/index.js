@@ -12,8 +12,6 @@ import Cam from '../components/CarPlateRecognition/Cam';
 
 import OrderHistory from '../components/OrderHistory/OrderHistory';
 
-import UserInfo from '../components/UserInformation/UserInfo';
-
 import OrderDetails from '../components/OrderHistory/OrderDetails';
 
 const MainStack = createStackNavigator(
@@ -44,12 +42,6 @@ const MainStack = createStackNavigator(
       screen: OrderHistory,
       navigationOptions: () => ({
         header: null
-      })
-    },
-    UserInfo: {
-      screen: UserInfo,
-      navigationOptions: () => ({
-        heaeder: null
       })
     },
   },

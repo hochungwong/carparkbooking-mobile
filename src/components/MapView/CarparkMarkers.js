@@ -63,17 +63,28 @@ class CarparkMarkers extends Component{
     render(){
         const { orders ,currentTotalNumber} = this.props;
         const {coordinateData,carparksData} = this.state;
+        const currentNumber = [] ;
+        for(let key in currentTotalNumber) {
+            currentNumber.push({
+                ...currentTotalNumber[key],
+                id: key
+            })
+        }
         let tempArr = [];
         for (let key in coordinateData){
             const i = coordinateData[key];
             const j = carparksData[key].carparkData;
-            const k = carparksData[key].carparkId
+            const k = carparksData[key].carparkId;
+            //filter the specific number
+            const _cN = currentNumber.filter(item => 
+               item.id === k
+            )
             tempArr.push({
                 coordinate: i.coordinate,
                 address: i.address,
                 price: j.parkingFees,
                 name: j.name,
-                totalNumber: j.totalValidNumber,
+                totalNumber: _cN.length !== 0 ? _cN[0].currentValidNumber : "Not Valid",
                 carparkId: k
             })
         }

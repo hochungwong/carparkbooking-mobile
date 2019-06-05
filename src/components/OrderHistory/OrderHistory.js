@@ -19,9 +19,9 @@ class OrderHistory extends Component {
     }
    
     //cancel order in 15 minutes
-    cancelOrderInSpecificTime = orderId => {
-        const ordersForUsersRef = firebase.database().ref(`/ordersForUsers/${orderId}`);
-        ordersForUsersRef.once('value').then(
+    cancelOrderInSpecificTime = (carparkId, plate) => {
+        const ordersRef = firebase.database().ref(`/ordersForManager/${carparkId}/${plate}`);
+        ordersRef.once('value').then(
             snapshot => {
                 snapshot.forEach(child => {
                     child.ref.set(null)
@@ -43,6 +43,7 @@ class OrderHistory extends Component {
     render() {
         const orders = this.props.navigation.getParam('orders');
         const { isOrderCancelled } = this.state;
+        console.log(orders)
         return (
             <ScrollView>
                 <View style={styles.info__header__style}>
@@ -109,7 +110,9 @@ class OrderHistory extends Component {
                                         <Body>
                                             <Button
                                                 info rounded bordered style={styles.cardHeader_button}
-                                                onPress={this.toogleOrderSummary}
+                                                onPress={() => {
+                                                    this.cancelOrderInSpecificTime(order.carparkId, order.plate)
+                                                }}
                                             >
                                                 <Text style={styles.cardHeader_button_text}>Cancel</Text>
                                             </Button>
