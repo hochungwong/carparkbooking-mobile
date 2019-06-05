@@ -5,7 +5,6 @@ export {
 } from './auth';
 
 export {
-    fetchCarpark,
     fetchPlateNumber,
     submitCarPlate
 } from './dashboard';

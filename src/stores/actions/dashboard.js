@@ -39,51 +39,6 @@ export const fetchPlateNumber = userId => {
     }
 }
 
-
-export const fetchCarparksStart = () => {
-    return {
-        type: actionTypes.FETCH_CARPARKS_START
-    };
-};
-
-export const fetchCarparksFailed = error => {
-    return {
-        type: actionTypes.FETCH_CARPARKS_FAIL,
-        error: error
-    }
-}
-
-export const fetchCarparksSuccess = carpark => {
-    return {
-        type: actionTypes.FETCH_CARPARKS_SUCCESS,
-        carpark: carpark
-    };
-};
-
-export const fetchCarpark = (token, userId) => {
-    return dispatch => {
-        console.log(token, userId)
-        dispatch(fetchCarparksStart());
-        const queryParams = '?auth=' + token + '&orderBy="userId"&equalTo="' + userId + '"' ;
-        axios.get('https://parking-73057.firebaseio.com/carparks.json' + queryParams).then(
-                response => {
-                    console.log(response.data)
-                    const fetchedData = [] ;
-                    for(let key in response.data) {
-                        fetchedData.push({
-                            ...response.data[key],
-                            id: key
-                        });
-                    }
-                    dispatch(fetchCarparksSuccess(fetchedData));
-                }
-            ).catch(error => {
-                console.log(error)
-                dispatch(fetchCarparksFailed(error));
-            })
-        }
-    }
-
 export const submitCarPlateStart = () => {
     return {
         type: actionTypes.SUBMIT_PLATENUMBER_START

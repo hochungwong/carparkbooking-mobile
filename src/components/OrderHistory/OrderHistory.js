@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 
-import {Platform, StyleSheet, Text,View,TouchableOpacity,Dimensions,Image,Alert,ScrollView} from 'react-native';
-import { Card, CardItem, Content, Container , Button, Icon , Left, Body, Right} from 'native-base';
+import {Platform, StyleSheet, Text,View,Dimensions,ScrollView} from 'react-native';
+import { Card, CardItem, Button, Icon , Left, Body, Right} from 'native-base';
 
 import firebase from 'react-native-firebase';
 
@@ -63,9 +63,7 @@ class OrderHistory extends Component {
                             <Left>
                                 <Text>{new Date(order.startedTime).toLocaleString()}</Text>
                             </Left>
-                            <Body>
-                                <Text>{order.id}</Text>
-                            </Body>
+                            <Body />
                         </CardItem>
                         {/* <CardItem bordered style={styles.cardBody}>
                                 <Left>

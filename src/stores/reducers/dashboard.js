@@ -8,21 +8,6 @@ const initialState = {
     loading: false,
 }
 
-const fetchCarparksStart = ( state, action ) => {
-    return updateObject( state, { loading: true } );
-};
-
-const fetchCarparksSuccess = ( state, action ) => {
-    return updateObject( state, {
-        carpark: action.carpark,
-        loading: false
-    } );
-};
-
-const fetchCarparksFailed = (state, action) => {
-    return updateObject(state, {loading: false} );
-}
-
 //fetch plate number
 const fetchPlateNumberStart = ( state, action ) => {
     return updateObject( state, { loading: true } );
@@ -59,9 +44,6 @@ const submitCarPlateFailed = (state ,action) => {
 
 const reducer = (state = initialState, action) => {
     switch(action.type) {
-        case actionTypes.FETCH_CARPARKS_START: return fetchCarparksStart(state,action);
-        case actionTypes.FETCH_CARPARKS_SUCCESS: return fetchCarparksSuccess(state,action);
-        case actionTypes.FETCH_CARPARKS_FAIL: return fetchCarparksFailed(state,action);
         //fetch plate number
         case actionTypes.FETCH_PLATENUMBER_START: return fetchPlateNumberStart(state, action);
         case actionTypes.FETCH_PLATENUMBER_SUCCESS: return fetchPlateNumberSuccess(state, action);

@@ -19,7 +19,7 @@ class MainContainer extends Component {
 
     render() {
         const { 
-            plateNumber , orders, loading ,onLogout, userId
+            plateNumber , orders, onLogout, userId
         } = this.props;
         const ordersData = [];
         //structure orders
@@ -43,15 +43,17 @@ class MainContainer extends Component {
                 console.log("no specific orders")
             }
         })
+        console.log(orders)
+        console.log(ordersData)
         console.log('user\'s orders',ordersDataForUsers)
         console.log(plateNumber)
         return (
-            loading ? 
-            <View style={styles.container}>
-                <Text>Loading</Text>
-                <ActivityIndicator size="large" />
-            </View>
-            :
+            // loading ? 
+            // <View style={styles.container}>
+            //     <Text>Loading</Text>
+            //     <ActivityIndicator size="large" />
+            // </View>
+            // :
             <Dashboard
                 ordersData={ordersDataForUsers} 
                 plateNumber ={plateNumber}
@@ -77,17 +79,10 @@ const mapDispatchToProps = dispatch => {
         onLogout: () => dispatch(actions.logout())
     }
 }
+
 export default compose(
     connect(mapStateToProps, mapDispatchToProps),
     firebaseConnect([
         '/ordersForManager'
     ])
 )(MainContainer);
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center'
-    }
-})
