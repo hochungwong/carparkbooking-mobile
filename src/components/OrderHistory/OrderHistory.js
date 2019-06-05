@@ -42,22 +42,6 @@ class OrderHistory extends Component {
 
     render() {
         const orders = this.props.navigation.getParam('orders');
-        // const ordersData = [];
-        // for(let key in orders) {
-        //    console.log(key)
-        //    console.log(orders[key])
-        //    const timeData = Object.values(orders[key])[0];
-        //    const plate = Object.keys(orders[key])[0]
-        //    console.log(timeData)
-        //    // user id
-        //    for(let k in timeData){
-        //         ordersData.push({
-        //             plate: plate,
-        //             ...timeData[k]
-        //         })
-        //         console.log(timeData[k])
-        //    } 
-        // }
         const { isOrderCancelled } = this.state;
         return (
             <ScrollView>
@@ -73,8 +57,8 @@ class OrderHistory extends Component {
 					</View>
 				</View>
             {orders !== null && orders.length !== 0 ?
-                orders.map(order => (
-                    <Card key={order.id}>
+                orders.map((order, key) => (
+                    <Card key={key}>
                         <CardItem style={styles.cardHeader} header bordered>
                             <Left>
                                 <Text>{new Date(order.startedTime).toLocaleString()}</Text>

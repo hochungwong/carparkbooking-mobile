@@ -99,18 +99,18 @@ class Main extends React.Component{
         this.props.navigation.navigate('UserInfo', {email: email});
     }
 
-    jumpToHistory = orders => {
-      this.props.navigation.navigate('OrderHistory', {orders: orders})
+    jumpToHistory = (orders, userId) => {
+      this.props.navigation.navigate('OrderHistory', {orders: orders, userId: userId})
     }
 
     render(){
         const {currentUser , currentAddress, region} = this.state;
-        const { ordersData, plateNumber } = this.props;
+        const { ordersData, plateNumber, userId} = this.props;
         console.log(ordersData);
         return(
             <Container>
               <Header >
-                <Text style={{justifyContent: 'center'}}>Hi {currentUser && currentUser.email} !</Text>
+                <Text style={styles.header}>Hi {currentUser && currentUser.email} !</Text>
               </Header>
               <Content>
                 <List>
@@ -172,7 +172,7 @@ class Main extends React.Component{
                       </Right>
                       :
                       <Right>
-                        <Button onPress={() => {this.jumpToHistory(ordersData)}} transparent>
+                        <Button onPress={() => {this.jumpToHistory(ordersData, userId)}} transparent>
                           <Text >View</Text>
                         </Button>
                       </Right>
@@ -202,9 +202,7 @@ class Main extends React.Component{
 export default Main ;
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center'
-    }
+    header: {
+      justifyContent: 'center'
+    },
 })

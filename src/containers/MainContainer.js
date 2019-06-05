@@ -14,32 +14,36 @@ class MainContainer extends Component {
 
     componentDidMount() {
         const {userId, onFetchPlateNumber} = this.props;
-        console.log(userId)
         onFetchPlateNumber(userId);      
     }
 
     render() {
         const { 
-            plateNumber , orders, loading ,onLogout
+            plateNumber , orders, loading ,onLogout, userId
         } = this.props;
         const ordersData = [];
+        //structure orders
         for(let key in orders) {
-           console.log(key)
-           console.log(orders[key])
            const timeData = Object.values(orders[key])[0];
            const plate = Object.keys(orders[key])[0]
-           console.log(timeData)
-           // user id
            for(let k in timeData){
                 ordersData.push({
                     plate: plate,
                     carparkId: key,
                     ...timeData[k]
                 })
-                console.log(timeData[k])
            } 
         }
-        console.log(ordersData)
+        //pick specific orders for users
+        const ordersDataForUsers = [];
+        ordersData.map(order => {
+            if (order.userId === userId) {
+                ordersDataForUsers.push(order)
+            } else {
+                console.log("no specific orders")
+            }
+        })
+        console.log('user\'s orders',ordersDataForUsers)
         console.log(plateNumber)
         return (
             loading ? 
@@ -49,7 +53,7 @@ class MainContainer extends Component {
             </View>
             :
             <Dashboard
-                ordersData={ordersData} 
+                ordersData={ordersDataForUsers} 
                 plateNumber ={plateNumber}
                 logout = {onLogout}
                 {...this.props}
