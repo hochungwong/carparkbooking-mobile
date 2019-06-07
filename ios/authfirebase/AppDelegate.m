@@ -12,10 +12,12 @@
 #import <React/RCTRootView.h>
 
 #import <Firebase.h>
+#import <GoogleMaps/GoogleMaps.h>
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+  [GMSServices provideAPIKey:@"AIzaSyAeDSECtTIyAJ6RJSJ-JCpzvg0v0p-Ib-M"];
   RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];[FIRApp configure];
   RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge
                                                    moduleName:@"authfirebase"

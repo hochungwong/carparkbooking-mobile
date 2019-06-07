@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {StyleSheet,  View,TouchableOpacity,Dimensions,} from 'react-native';
-import MapView from 'react-native-maps';
+import MapView ,{PROVIDER_GOOGLE, PROVIDER_DEFAULT}from 'react-native-maps';
 import { Header, Title, Button, Icon, Left, Body, Right,Text } from "native-base";
 
 import CarparkMarkers from './CarparkMarkers';
@@ -115,6 +115,7 @@ class CarparkMap extends Component {
           showsMyLocationButton = {true}
           region= {trackedRegion}
           showsCompass = {true}
+          provider= {PROVIDER_GOOGLE}
         >
           <CarparkMarkers {...this.props} />       
         </MapView>        
