@@ -113,24 +113,25 @@ class CarparkMap extends Component {
           style={styles.map}
           showsUserLocation={true}
           showsMyLocationButton = {true}
+          
           region= {trackedRegion}
           showsCompass = {true}
           provider= {PROVIDER_GOOGLE}
         >
           <CarparkMarkers {...this.props} />       
         </MapView>        
-        <View style={childStyle(varTop)}>
-        <TouchableOpacity
-          style={styles.mapButton}
-          hitSlop = {hitSlop}
-          activeOpacity = {0.7}  
-          onPress = {()=> {this._findMe()}}
-        >
-          <Text style={styles.mapButtonText}>
-            Find Me
-          </Text>
-        </TouchableOpacity>
-        </View>
+        {/* <View style={childStyle(varTop)}>
+          <TouchableOpacity
+            style={styles.mapButton}
+            hitSlop = {hitSlop}
+            activeOpacity = {0.7}  
+            onPress = {()=> {this._findMe()}}
+          >
+            <Text style={styles.mapButtonText}>
+              Find Me
+            </Text>
+          </TouchableOpacity>
+        </View> */}
       </View>
     );
   }
